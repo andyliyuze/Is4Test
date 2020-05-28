@@ -1,4 +1,4 @@
 # Is4Test
-#is4+identity
+is4+identity
 
-#AutoUnitOfWorkInterceptor
+AutoUnitOfWorkInterceptor
