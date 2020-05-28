@@ -1,3 +1,3 @@
 # Is4Test
-is4+identity
-AutoUnitOfWorkInterceptor
+#is4+identity
+#AutoUnitOfWorkInterceptor
