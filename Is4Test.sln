@@ -7,15 +7,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Is4Test", "Is4Test\Is4Test.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JavaScriptClient", "JavaScriptClient\JavaScriptClient.csproj", "{B85A5C42-9FB7-4A3C-8CDD-A7DD10F3B477}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminApi", "AdminApi\AdminApi.csproj", "{515EC41A-D229-483F-AD1F-1411B9158F13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminApi", "AdminApi\AdminApi.csproj", "{515EC41A-D229-483F-AD1F-1411B9158F13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Is4.EFCore.MySql", "Is4.EFCore.MySql\Is4.EFCore.MySql.csproj", "{8034EEC9-280A-45F4-B16F-CB4A1B75A2FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Is4.EFCore.MySql", "Is4.EFCore.MySql\Is4.EFCore.MySql.csproj", "{8034EEC9-280A-45F4-B16F-CB4A1B75A2FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Is4.Domain", "Is4.Domain\Is4.Domain.csproj", "{031CB17C-02DD-463F-84CB-957CA3E6C92D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Is4.Domain", "Is4.Domain\Is4.Domain.csproj", "{031CB17C-02DD-463F-84CB-957CA3E6C92D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Is4.Service", "Is4.Service\Is4.Service.csproj", "{A45A913D-3959-45BE-B8E2-9E0BD7839826}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Is4.Service", "Is4.Service\Is4.Service.csproj", "{A45A913D-3959-45BE-B8E2-9E0BD7839826}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Is4.EFCore.Shared", "Is4.EFCore.Shared\Is4.EFCore.Shared.csproj", "{95EB05B7-67BA-4F0B-ADF4-355E2CF65FE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Is4.EFCore.Shared", "Is4.EFCore.Shared\Is4.EFCore.Shared.csproj", "{95EB05B7-67BA-4F0B-ADF4-355E2CF65FE2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Is4.Service.Shared", "Is4.Service.Shared\Is4.Service.Shared.csproj", "{71385859-63E2-4993-92A7-1EC0CF7F90B5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Is4.Domain.Shared", "Is4.Domain.Shared\Is4.Domain.Shared.csproj", "{6A918475-FA53-4E03-A22F-361EED44DFDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Is4.Common", "Is4.Common\Is4.Common.csproj", "{7E0DA750-6519-4E04-A28C-723C34667711}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Is4.Shared", "Is4.Shared\Is4.Shared.csproj", "{BDF36D0A-FEB1-49ED-95C9-91399CFDB01F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +59,22 @@ Global
 		{95EB05B7-67BA-4F0B-ADF4-355E2CF65FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95EB05B7-67BA-4F0B-ADF4-355E2CF65FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95EB05B7-67BA-4F0B-ADF4-355E2CF65FE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71385859-63E2-4993-92A7-1EC0CF7F90B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71385859-63E2-4993-92A7-1EC0CF7F90B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71385859-63E2-4993-92A7-1EC0CF7F90B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71385859-63E2-4993-92A7-1EC0CF7F90B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A918475-FA53-4E03-A22F-361EED44DFDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A918475-FA53-4E03-A22F-361EED44DFDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A918475-FA53-4E03-A22F-361EED44DFDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A918475-FA53-4E03-A22F-361EED44DFDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E0DA750-6519-4E04-A28C-723C34667711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E0DA750-6519-4E04-A28C-723C34667711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E0DA750-6519-4E04-A28C-723C34667711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E0DA750-6519-4E04-A28C-723C34667711}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDF36D0A-FEB1-49ED-95C9-91399CFDB01F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDF36D0A-FEB1-49ED-95C9-91399CFDB01F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDF36D0A-FEB1-49ED-95C9-91399CFDB01F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDF36D0A-FEB1-49ED-95C9-91399CFDB01F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

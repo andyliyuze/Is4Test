@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Is4.Service.DTO
+﻿namespace Is4.Service.Shared.DTO
 {
     public class CreateUserInput
     {

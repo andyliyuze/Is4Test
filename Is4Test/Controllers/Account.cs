@@ -139,15 +139,7 @@ namespace Is4Test.Controllers
             var vm = await BuildLoginViewModelAsync(model);
             return View(vm);
         }
-
-        [HttpPost]
-        [Route("Login2")]
-        //[ValidateAntiForgeryToken]
-        public async Task Login2()
-        {
-            await Task.CompletedTask;
-
-        }
+     
         private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
         {
             var vm = await BuildLoginViewModelAsync(model.ReturnUrl);

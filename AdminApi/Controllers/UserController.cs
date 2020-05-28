@@ -1,5 +1,6 @@
-﻿using Is4.Service;
-using Is4.Service.DTO;
+﻿using IdentityServer4.EntityFramework.Entities;
+using Is4.Service.Shared;
+using Is4.Service.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -21,5 +22,21 @@ namespace AdminApi.Controllers
             var result = await _userService.Create(input);
             return result;
         }
+
+        [Route("createClaim")]
+        public async Task<ResponseBase<bool>> CreateClaim([FromBody] CreateUserClaimInput input)
+        {
+            var result = await _userService.CreateClaim(input);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("getUserById")]
+        public async Task<ResponseBase<GetUserOutput>> GetUserById(string id)
+        {
+            var result = await _userService.GetUserById(id);
+            return result;
+        }
+
     }
 }

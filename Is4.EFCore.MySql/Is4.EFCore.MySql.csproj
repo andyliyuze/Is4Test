@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Is4.Domain.Shared\Is4.Domain.Shared.csproj" />
     <ProjectReference Include="..\Is4.EFCore.Shared\Is4.EFCore.Shared.csproj" />
   </ItemGroup>
 
