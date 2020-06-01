@@ -2,6 +2,7 @@
 using IdentityServer4.EntityFramework.Entities;
 using Is4.Domain;
 using Is4.Service.Shared.DTO;
+using Is4.Service.Shared.DTO.ApiResource;
 using System.Security.Claims;
 
 namespace Is4.Service.Shared
@@ -19,6 +20,13 @@ namespace Is4.Service.Shared
                    .ForMember(a => a.AllowedCorsOrigins, opt => opt.Ignore()).ForMember(a => a.IdentityProviderRestrictions, opt => opt.Ignore())
                .ForMember(a => a.AllowedScopes, opt => opt.Ignore());
 
+            CreateMap<CreateApiResourceInput, ApiResource>();
+            CreateMap<CreateApiScopeInput, ApiScope>();
+            CreateMap<CreateApiSecretInput, ApiSecret>();
+
+            CreateMap<ApiScope, ApiScopeOutput>();
+            CreateMap<ApiSecret, ApiSecretOutput>();
+            CreateMap<ApiResource, ApiResourceOutput>();           
         }
     }
 }

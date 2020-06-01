@@ -51,7 +51,6 @@ namespace Is4.Common.Extensions
             }
         }
 
-
         public static void AddRepository(this IServiceCollection services)
         {
             Type iNeedInject = typeof(IRepository);

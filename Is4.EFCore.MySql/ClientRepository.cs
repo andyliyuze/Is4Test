@@ -16,7 +16,7 @@ namespace Is4.EFCore.MySql
 
         public async Task Create(Client client)
         {
-            var ss = await _dbContext.Clients.AddAsync(client);
+            await _dbContext.Clients.AddAsync(client);
         }
     }
 }

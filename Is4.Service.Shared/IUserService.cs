@@ -11,5 +11,7 @@ namespace Is4.Service.Shared
         Task<ResponseBase<bool>> CreateClaim(CreateUserClaimInput input);
 
         Task<ResponseBase<GetUserOutput>> GetUserById(string id);
+
+        Task<ResponseBase<PaginatedList<GetUserOutput>>> GetList(int pageIndex, int pageSize);
     }
 }

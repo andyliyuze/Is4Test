@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 
 namespace Is4.Domain.Shared
 {
@@ -44,6 +45,8 @@ namespace Is4.Domain.Shared
 
         public static List<string> GetGrantTypes()
         {
+            var m = new ManualResetEvent(false);
+            
             var allowedGrantypes = new List<string>
                 {
                     "implicit",
