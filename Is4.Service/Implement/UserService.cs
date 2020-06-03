@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using IdentityServer4.Models;
 using Is4.Domain;
 using Is4.Domain.Repostitory;
 using Is4.Service.Shared;
 using Is4.Service.Shared.DTO;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -17,12 +17,18 @@ namespace Is4.Service.Implement
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly IUserRepository _userRepository;
-
-        public UserService(UserManager<User> userManager, IUserRepository userRepository, IMapper mapper)
+        private readonly IUserClaimRepository _userClaimRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IRoleRepository _roleRepository;
+        public UserService(UserManager<User> userManager, IUserRepository userRepository, IUserClaimRepository userClaimRepository,
+            IUserRoleRepository userRoleRepository, IRoleRepository roleRepository, IMapper mapper)
         {
             _mapper = mapper;
             _userRepository = userRepository;
             _userManager = userManager;
+            _userClaimRepository = userClaimRepository;
+            _userRoleRepository = userRoleRepository;
+            _roleRepository = roleRepository;
         }
 
         public async Task<ResponseBase<bool>> Create(CreateUserInput input)
@@ -42,8 +48,29 @@ namespace Is4.Service.Implement
 
         public async Task<ResponseBase<PaginatedList<GetUserOutput>>> GetList(int pageIndex, int pageSize)
         {
-            var result = _userRepository.Query().Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-            return null;
+            var count = await _userRepository.Query().CountAsync();
+            var users = await _userRepository.Query().Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+          
+            var userIds = users.Select(a => a.Id).ToList();
+            var cliams = await _userClaimRepository.Query().Where(a => userIds.Contains(a.UserId)).ToListAsync();
+            var userRoles = await _userRoleRepository.Query().Where(a => userIds.Contains(a.UserId)).ToListAsync();
+
+            var roleIds = userRoles.Select(a => a.RoleId).ToList();
+            var roles = await _roleRepository.Query().Where(a => roleIds.Contains(a.Id)).ToListAsync();
+
+            var output = _mapper.Map<IList<GetUserOutput>>(users);
+
+            foreach (var user in output)
+            { 
+                var userCliams = cliams.Where(a => a.UserId == user.Id).ToList();
+                user.Claims = _mapper.Map<IList<ClaimOutput>>(userCliams);
+                var userRoleIds = userRoles.Where(a => a.UserId == user.Id).Select(a=>a.RoleId).ToList();
+                user.Roles = roles.Where(a => userRoleIds.Contains(a.Id)).Select(a => a.Name).ToList();
+            }
+            return new ResponseBase<PaginatedList<GetUserOutput>>()
+            {
+                Result = new PaginatedList<GetUserOutput>(output, count, pageIndex, pageSize)
+            };
         }
 
         public async Task<ResponseBase<GetUserOutput>> GetUserById(string id)

@@ -20,7 +20,7 @@ namespace Is4.EFCore.MySql
 
         public IQueryable<User> Query()
         {      
-            return _dbContext.Users.Include(a=>a.Claims).AsQueryable();       
+            return _dbContext.Users.AsQueryable();       
         }
     }
 }

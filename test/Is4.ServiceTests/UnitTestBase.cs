@@ -14,7 +14,7 @@ using Is4.Common.Extensions;
 using AutoMapper;
 using Is4.Service.Shared;
 
-namespace TestBase
+namespace Is4.ServiceTests
 {
     public class UnitTestBase
     {

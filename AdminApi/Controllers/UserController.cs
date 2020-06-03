@@ -38,5 +38,13 @@ namespace AdminApi.Controllers
             return result;
         }
 
+        [HttpGet]
+        [Route("getList")]
+        public async Task<ResponseBase<PaginatedList<GetUserOutput>>> GetList(int pageIndex, int pageSize)
+        {
+            var result = await _userService.GetList(pageIndex, pageSize);
+            return result;
+        }
+
     }
 }

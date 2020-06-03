@@ -3,6 +3,8 @@ using IdentityServer4.EntityFramework.Entities;
 using Is4.Domain;
 using Is4.Service.Shared.DTO;
 using Is4.Service.Shared.DTO.ApiResource;
+using Is4.Service.Shared.DTO.Role;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 namespace Is4.Service.Shared
@@ -26,7 +28,13 @@ namespace Is4.Service.Shared
 
             CreateMap<ApiScope, ApiScopeOutput>();
             CreateMap<ApiSecret, ApiSecretOutput>();
-            CreateMap<ApiResource, ApiResourceOutput>();           
+            CreateMap<ApiResource, ApiResourceOutput>();
+
+            CreateMap<IdentityUserClaim<string>, ClaimOutput>().ForMember(a=>a.Type,opt=>opt.MapFrom(b=>b.ClaimType)).ForMember(a => a.Value, opt => opt.MapFrom(b => b.ClaimValue));
+            CreateMap<User, GetUserOutput>();
+
+            CreateMap<CreateRoleInput, IdentityRole>();
+            
         }
     }
 }

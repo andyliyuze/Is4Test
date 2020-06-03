@@ -7,6 +7,8 @@ namespace Is4.Domain
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class User : IdentityUser
     {
-        public IList<IdentityUserClaim<string>> Claims { get; set; }
+        //public IList<UserClaim> Claims { get; set; }
     }
+
+   
 }

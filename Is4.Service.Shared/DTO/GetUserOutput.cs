@@ -14,5 +14,7 @@ namespace Is4.Service.Shared.DTO
         public string Email { get; set; }
 
         public IList<ClaimOutput> Claims { get; set; }
+
+        public IList<string> Roles { get; set; }
     }
 }
