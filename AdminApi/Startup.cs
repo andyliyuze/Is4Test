@@ -1,5 +1,6 @@
 using AutoMapper;
 using Castle.DynamicProxy;
+using IdentityServer4.AccessTokenValidation;
 using Is4.Common.Extensions;
 using Is4.Domain;
 using Is4.Domain.Repostitory;
@@ -42,6 +43,21 @@ namespace AdminApi
             services.AddAppService();
             services.AddRepository();
             services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            services.AddAuthentication(options => {
+                options.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultForbidScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddIdentityServerAuthentication(options =>
+            {
+                options.Authority = "https://localhost:5001";
+                options.ApiName = "AdminApi";
+                options.RequireHttpsMetadata = false;
+            });
+
             services.AddControllers();
         }
 
@@ -53,7 +69,9 @@ namespace AdminApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseAuthentication();
+
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

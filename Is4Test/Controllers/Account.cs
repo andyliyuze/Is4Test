@@ -96,6 +96,10 @@ namespace Is4Test.Controllers
 
             if (ModelState.IsValid)
             {
+                var user1 = await _userManager.FindByNameAsync(model.Username);
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user1);
+
+                var re = await _userManager.ResetPasswordAsync(user1, token, "Pass123$");
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
@@ -139,7 +143,7 @@ namespace Is4Test.Controllers
             var vm = await BuildLoginViewModelAsync(model);
             return View(vm);
         }
-     
+
         private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
         {
             var vm = await BuildLoginViewModelAsync(model.ReturnUrl);

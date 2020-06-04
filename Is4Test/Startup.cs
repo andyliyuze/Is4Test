@@ -1,6 +1,7 @@
 using Is4.Domain;
 using Is4.EFCore.MySql.Extensions;
 using Is4.EFCore.Shared;
+using Is4Test.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -21,9 +22,10 @@ namespace Is4Test
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {          
+        {
+            
             services.AddMySqlDbContexts(Configuration);
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>().AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -35,8 +37,10 @@ namespace Is4Test
                 options.Events.RaiseSuccessEvents = true;
             }).AddConfigurationStore().AddOperationalStore();
 
-            builder.AddAspNetIdentity<User>();
+            var identitybuilder = builder.AddAspNetIdentity<User>();                
 
+            services.AddScoped<IUserClaimsPrincipalFactory<User>, CustomUserClaimsPrincipalFactory>();
+              
             builder.AddDeveloperSigningCredential();
 
             services.AddControllersWithViews();
@@ -47,11 +51,11 @@ namespace Is4Test
         {
             if (env.IsDevelopment())
             {
-                InitializeDatabase.Run(app).Wait();
+                //InitializeDatabase.Run(app).Wait();
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
-            app.UseHttpsRedirection();
+            //  app.UseHttpsRedirection();
 
             app.UseRouting();
 

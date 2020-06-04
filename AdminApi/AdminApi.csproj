@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Is4.EFCore.MySql\Is4.EFCore.MySql.csproj" />
     <ProjectReference Include="..\Is4.Service\Is4.Service.csproj" />
   </ItemGroup>
