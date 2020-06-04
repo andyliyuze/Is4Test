@@ -24,9 +24,10 @@ namespace Is4Test.Extensions
             return claimsIdentity;
         }
 
-        public override Task<ClaimsPrincipal> CreateAsync(User user)
+        public override async Task<ClaimsPrincipal> CreateAsync(User user)
         {
-            return base.CreateAsync(user);
+            var result = await base.CreateAsync(user);
+            return result;
         }
     }
 }

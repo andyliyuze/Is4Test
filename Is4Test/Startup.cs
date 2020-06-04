@@ -37,7 +37,8 @@ namespace Is4Test
                 options.Events.RaiseSuccessEvents = true;
             }).AddConfigurationStore().AddOperationalStore();
 
-            var identitybuilder = builder.AddAspNetIdentity<User>();                
+            var identitybuilder = builder.AddAspNetIdentity<User>()
+                .AddProfileService<ImplicitProfileService>();                
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, CustomUserClaimsPrincipalFactory>();
               
