@@ -3,6 +3,7 @@ using IdentityServer4.EntityFramework.Entities;
 using Is4.Domain;
 using Is4.Service.Shared.DTO;
 using Is4.Service.Shared.DTO.ApiResource;
+using Is4.Service.Shared.DTO.Client;
 using Is4.Service.Shared.DTO.Role;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
@@ -30,11 +31,21 @@ namespace Is4.Service.Shared
             CreateMap<ApiSecret, ApiSecretOutput>();
             CreateMap<ApiResource, ApiResourceOutput>();
 
-            CreateMap<IdentityUserClaim<string>, ClaimOutput>().ForMember(a=>a.Type,opt=>opt.MapFrom(b=>b.ClaimType)).ForMember(a => a.Value, opt => opt.MapFrom(b => b.ClaimValue));
+            CreateMap<IdentityUserClaim<string>, ClaimOutput>().ForMember(a => a.Type, opt => opt.MapFrom(b => b.ClaimType)).ForMember(a => a.Value, opt => opt.MapFrom(b => b.ClaimValue));
             CreateMap<User, GetUserOutput>();
 
             CreateMap<CreateRoleInput, IdentityRole>();
-            
+
+            CreateMap<ClientScope, string>().ConvertUsing(b => b.Scope);
+            CreateMap<ClientPostLogoutRedirectUri, string>().ConvertUsing(b => b.PostLogoutRedirectUri);
+            CreateMap<ClientRedirectUri, string>().ConvertUsing(b => b.RedirectUri);
+            CreateMap<ClientCorsOrigin, string>().ConvertUsing(b => b.Origin);
+            CreateMap<ClientGrantType, string>().ConvertUsing(b => b.GrantType);
+            CreateMap<ClientClaim, CreateClientClaimInput>();
+            CreateMap<ClientProperty, CreateClientPropertyInput>();
+         
+            CreateMap<Client, ClientOuput>();
+
         }
     }
 }

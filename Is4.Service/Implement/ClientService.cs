@@ -6,6 +6,7 @@ using Is4.Domain.Shared;
 using Is4.Service.Shared;
 using Is4.Service.Shared.DTO;
 using Is4.Service.Shared.DTO.Client;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +73,18 @@ namespace Is4.Service.Implement
         public IList<string> GetAllGrantTypes()
         {
             return ClientConsts.GetGrantTypes();
+        }
+
+        [UnitOfWork(false)]
+        public async Task<ResponseBase<PaginatedList<ClientOuput>>> GetList(int pageIndex, int pageSize)
+        {
+            var list = await _clientRepository.Query().Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            var count = await _clientRepository.Query().CountAsync();
+            var output = _mapper.Map<IList<ClientOuput>>(list);
+            return new ResponseBase<PaginatedList<ClientOuput>>()
+            {
+                Result = new PaginatedList<ClientOuput>(output, count, pageIndex, pageSize)
+            };
         }
     }
 }

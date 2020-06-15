@@ -44,7 +44,8 @@ namespace AdminApi
             services.AddRepository();
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
@@ -59,6 +60,7 @@ namespace AdminApi
             });
 
             services.AddControllers();
+            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

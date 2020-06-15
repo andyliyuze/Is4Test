@@ -1,10 +1,9 @@
-﻿using IdentityServer4.EntityFramework.Entities;
-using IdentityServer4.Extensions;
-using Is4.Service.Shared;
+﻿using Is4.Service.Shared;
 using Is4.Service.Shared.DTO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using Microsoft.Extensions.PlatformAbstractions;
 using System.Threading.Tasks;
 
 namespace AdminApi.Controllers
@@ -20,9 +19,10 @@ namespace AdminApi.Controllers
             _userService = userService;
         }
 
+        [AllowAnonymous]
         [Route("create")]
-        public async Task<ResponseBase<bool>> Create([FromBody] CreateUserInput input)
-        {
+        public async Task<ResponseBase<bool>> Create([FromForm] CreateUserInput input)
+        { 
             var result = await _userService.Create(input);
             return result;
         }
@@ -46,7 +46,7 @@ namespace AdminApi.Controllers
         public async Task<ResponseBase<PaginatedList<GetUserOutput>>> GetList(int pageIndex, int pageSize)
         {
             var name = User.Identity.Name;
-             
+
             var result = await _userService.GetList(pageIndex, pageSize);
             return result;
         }

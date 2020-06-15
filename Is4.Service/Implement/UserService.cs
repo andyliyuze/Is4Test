@@ -5,7 +5,11 @@ using Is4.Service.Shared;
 using Is4.Service.Shared.DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.PlatformAbstractions;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -34,10 +38,88 @@ namespace Is4.Service.Implement
         public async Task<ResponseBase<bool>> Create(CreateUserInput input)
         {
             var user = _mapper.Map<User>(input);
+
+            user.HeadUrl = $"UserHead/{input.UserName}.jpg";
+            var basePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, user.HeadUrl);
             var result = await _userManager.CreateAsync(user, input.Password);
+            //保存图片
+            if (result.Succeeded)
+            {
+                using (var strem = input.Head.OpenReadStream())
+                {
+                    var img = Image.FromStream(strem);
+
+                    SaveThumbImg(img, basePath, 300, 300);
+                }
+            }
             return new ResponseBase<bool>() { Result = result.Succeeded, Message = string.Join(",", result.Errors.Select(a => a.Description)) };
         }
 
+
+        /// <summary>
+        /// 保存缩略图
+        /// </summary>    
+        private void SaveThumbImg(Image original, string thumbPath, int maxWidth, int maxHeight)
+        {
+            Size newSize = ResizeImage(original.Width, original.Height, maxWidth, maxHeight);
+            using (Image displayImage = new Bitmap(original, newSize))
+            {
+                try
+                {
+                    displayImage.Save(thumbPath, original.RawFormat);
+                }
+                finally
+                {
+                    original.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 计算新尺寸
+        /// </summary>
+        /// <param name="width">原始宽度</param>
+        /// <param name="height">原始高度</param>
+        /// <param name="maxWidth">最大新宽度</param>
+        /// <param name="maxHeight">最大新高度</param>
+        /// <returns></returns>
+        private Size ResizeImage(int width, int height, int maxWidth, int maxHeight)
+        {
+            if (maxWidth <= 0)
+                maxWidth = width;
+            if (maxHeight <= 0)
+                maxHeight = height;
+            decimal MAX_WIDTH = maxWidth;
+            decimal MAX_HEIGHT = maxHeight;
+            decimal ASPECT_RATIO = MAX_WIDTH / MAX_HEIGHT;
+
+            int newWidth, newHeight;
+            decimal originalWidth = width;
+            decimal originalHeight = height;
+
+            if (originalWidth > MAX_WIDTH || originalHeight > MAX_HEIGHT)
+            {
+                decimal factor;
+                if (originalWidth / originalHeight > ASPECT_RATIO)
+                {
+                    factor = originalWidth / MAX_WIDTH;
+                    newWidth = Convert.ToInt32(originalWidth / factor);
+                    newHeight = Convert.ToInt32(originalHeight / factor);
+                }
+                else
+                {
+                    factor = originalHeight / MAX_HEIGHT;
+                    newWidth = Convert.ToInt32(originalWidth / factor);
+                    newHeight = Convert.ToInt32(originalHeight / factor);
+                }
+            }
+            else
+            {
+                newWidth = width;
+                newHeight = height;
+            }
+            return new Size(newWidth, newHeight);
+        }
         public async Task<ResponseBase<bool>> CreateClaim(CreateUserClaimInput input)
         {
             var user = await _userManager.FindByIdAsync(input.UserId);
@@ -50,7 +132,7 @@ namespace Is4.Service.Implement
         {
             var count = await _userRepository.Query().CountAsync();
             var users = await _userRepository.Query().Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-          
+
             var userIds = users.Select(a => a.Id).ToList();
             var cliams = await _userClaimRepository.Query().Where(a => userIds.Contains(a.UserId)).ToListAsync();
             var userRoles = await _userRoleRepository.Query().Where(a => userIds.Contains(a.UserId)).ToListAsync();
@@ -61,10 +143,10 @@ namespace Is4.Service.Implement
             var output = _mapper.Map<IList<GetUserOutput>>(users);
 
             foreach (var user in output)
-            { 
+            {
                 var userCliams = cliams.Where(a => a.UserId == user.Id).ToList();
                 user.Claims = _mapper.Map<IList<ClaimOutput>>(userCliams);
-                var userRoleIds = userRoles.Where(a => a.UserId == user.Id).Select(a=>a.RoleId).ToList();
+                var userRoleIds = userRoles.Where(a => a.UserId == user.Id).Select(a => a.RoleId).ToList();
                 user.Roles = roles.Where(a => userRoleIds.Contains(a.Id)).Select(a => a.Name).ToList();
             }
             return new ResponseBase<PaginatedList<GetUserOutput>>()

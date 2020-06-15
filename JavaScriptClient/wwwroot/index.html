@@ -8,7 +8,9 @@
     <button id="login">Login</button>
     <button id="api">Call API</button>
     <button id="logout">Logout</button>
-    <input class="js_upFile cover1" type="file" name="cover" accept="image/*" capture="camera"  multiple /> 
+    <input class="js_upFile cover1" type="file" name="cover" accept="image/*" capture="camera" multiple />
+    <input type="file" accept="video/;" capture=camcorder" /> 
+    <input type="file" accept="audio/*;" capture=microphone" /> 
     <pre id="results"></pre>
 
     <script src="oidc-client.js"></script>
@@ -19,10 +21,10 @@
             var ua = navigator.userAgent.toLowerCase();
             //判断是否是苹果手机，是则是true
             var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);
-            if (isIos) {
-                $("input:file").removeAttr("capture");
-            };
-        });        
+            //if (isIos) {
+            //    $("input:file").removeAttr("capture");
+            //};
+        });
     </script>
 </body>
 </html>
