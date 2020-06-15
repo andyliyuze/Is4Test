@@ -35,6 +35,8 @@ namespace Is4.Service.Shared
             CreateMap<User, GetUserOutput>();
 
             CreateMap<CreateRoleInput, IdentityRole>();
+            CreateMap<IdentityRole, RoleOutput>();
+            CreateMap<RoleClaimInput, IdentityRoleClaim<string>>();
 
             CreateMap<ClientScope, string>().ConvertUsing(b => b.Scope);
             CreateMap<ClientPostLogoutRedirectUri, string>().ConvertUsing(b => b.PostLogoutRedirectUri);

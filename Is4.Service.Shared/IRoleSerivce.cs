@@ -7,5 +7,8 @@ namespace Is4.Service.Shared
     public interface IRoleSerivce : IAppService
     {
         Task<ResponseBase<bool>> Create(CreateRoleInput input);
+
+        Task<ResponseBase<PaginatedList<RoleOutput>>> GetList(int pageIndex, int pageSize);
+         
     }
 }

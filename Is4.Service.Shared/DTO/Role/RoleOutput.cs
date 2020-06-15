@@ -4,12 +4,10 @@ using System.Text;
 
 namespace Is4.Service.Shared.DTO.Role
 {
-    public class CreateRoleInput
+    public class RoleOutput
     {
+        public string Id { get; set; }
         public string Name { get; set; }
-
-        public string NormalizedName { get; set; }
-
-        public IList<RoleClaimInput> RoleClaims { get; set; }
+        public IList<RoleClaimOutput> Claims { get; set; }
     }
 }
