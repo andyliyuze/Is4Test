@@ -57,4 +57,5 @@ function api() {
 
 function logout() {
     mgr.signoutRedirect();
+   // mgr.removeUser();
 }

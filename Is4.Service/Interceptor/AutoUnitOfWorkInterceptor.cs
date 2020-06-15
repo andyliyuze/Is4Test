@@ -1,11 +1,7 @@
 ﻿using Castle.DynamicProxy;
-using Is4.Common;
 using Is4.Common.CustomAttributes;
 using Is4.Domain.Repostitory;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Is4.Service.Interceptor

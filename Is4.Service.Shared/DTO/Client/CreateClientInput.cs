@@ -60,10 +60,12 @@ namespace Is4.Service.Shared.DTO
         /// 启用
         /// </summary>
         public bool Enabled { get; set; } = true;
+
         /// <summary>
         /// 启用本地登陆
         /// </summary>
         public bool EnableLocalLogin { get; set; } = true;
+
         public int Id { get; set; }
 
         /// <summary>
@@ -71,9 +73,7 @@ namespace Is4.Service.Shared.DTO
         /// </summary>
         public int IdentityTokenLifetime { get; set; } = 300;
 
-        /// <summary>
-        /// 
-        /// </summary>
+     
         public bool IncludeJwtId { get; set; }
         public string LogoUri { get; set; }
 
@@ -99,12 +99,15 @@ namespace Is4.Service.Shared.DTO
         public bool RequirePkce { get; set; }
         public bool UpdateAccessTokenClaimsOnRefresh { get; set; }
 
+        /// <summary>
+        /// 指定注销后允许重定向到的uri，这里也限制了前端可以设置的post_logout_redirect_uri值
+        /// </summary>
         public List<string> PostLogoutRedirectUris { get; set; }
 
         public List<string> IdentityProviderRestrictions { get; set; }
 
         /// <summary>
-        /// 客户端重定向Uris
+        /// 指定允许返回令牌或授权码的uri，这里也限制了前端可以设置的redirect_uri值
         /// </summary>
         public List<string> RedirectUris { get; set; }
 
