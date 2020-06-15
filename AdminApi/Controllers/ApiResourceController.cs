@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Is4.Service.Shared;
 using Is4.Service.Shared.DTO.ApiResource;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,7 @@ namespace AdminApi.Controllers
 
         [HttpGet]
         [Route("getList")]
+        [AllowAnonymous]
         public async Task<ResponseBase<PaginatedList<ApiResourceOutput>>> GetList(int pageIndex, int pageSize)
         {
             var result = await _apiResourceService.GetList(pageIndex, pageSize);

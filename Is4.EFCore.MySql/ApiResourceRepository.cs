@@ -1,6 +1,7 @@
 ﻿using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Interfaces;
 using Is4.Domain.Repostitory;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace Is4.EFCore.MySql
 
         public IQueryable<ApiResource> Query()
         {
-            return _dbContext.ApiResources.AsQueryable();
+            return _dbContext.ApiResources.AsQueryable().Include(a=>a.Scopes).Include(a=>a.UserClaims).Include(a=>a.Secrets).Include(a=>a.Properties);
         }
     }
 }

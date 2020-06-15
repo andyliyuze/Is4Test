@@ -58,7 +58,7 @@ namespace Is4.Service.Shared
                 response.Message = "index必须大于等于1";
                 return response;
             }
-            var result = await _apiResourceRepository.Query().Include(a => a.Scopes).Include(a => a.Secrets).Skip((pageIndex - 1) * pageSize)
+            var result = await _apiResourceRepository.Query().Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize).ToListAsync();
             var output = _mapper.Map<IList<ApiResourceOutput>>(result);
             var count = await _apiResourceRepository.Query().CountAsync();
