@@ -1,15 +1,15 @@
 ﻿using IdentityServer4.EntityFramework.DbContexts;
-using IdentityServer4.EntityFramework.Interfaces;
 using Is4.Domain.Repostitory;
+using Is4.EFCore.Shared;
 using System.Threading.Tasks;
 
 namespace Is4.EFCore.MySql
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IConfigurationDbContext _dbContext;
+        private readonly ConfigurationDbContext _dbContext;
 
-        public UnitOfWork(IConfigurationDbContext dbContext)
+        public UnitOfWork(ConfigurationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
