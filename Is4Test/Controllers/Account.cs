@@ -149,8 +149,8 @@ namespace Is4Test.Controllers
             vm.RememberLogin = model.RememberLogin;
             return vm;
         }
-         
-      
+
+
         /*****************************************/
         /* helper APIs for the AccountController */
         /*****************************************/
@@ -238,7 +238,7 @@ namespace Is4Test.Controllers
         /// </summary>
         [HttpPost]
         [Route("Logout")]
-     //   [ValidateAntiForgeryToken]
+        //   [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout(LogoutInputModel model)
         {
             // build a model so the logged out page knows what to display
@@ -246,8 +246,9 @@ namespace Is4Test.Controllers
 
             if (User?.Identity.IsAuthenticated == true)
             {
+                await _signInManager.SignOutAsync();
                 // delete local authentication cookie
-                await HttpContext.SignOutAsync();
+                // await HttpContext.SignOutAsync();
 
                 // raise the logout event
                 await _events.RaiseAsync(new UserLogoutSuccessEvent(User.GetSubjectId(), User.GetDisplayName()));

@@ -80,6 +80,45 @@ namespace Is4.EFCore.Shared
                         IdentityServerConstants.StandardScopes.Profile,
                         "api1"
                     }
+                },
+
+                  new Client
+                {
+                    ClientName = "vuejs",
+                    ClientId = "vuejsclient",
+                    AllowedGrantTypes=GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser=true,
+                    AccessTokenType = AccessTokenType.Reference,
+                    UpdateAccessTokenClaimsOnRefresh = true,
+                    AllowOfflineAccess = true,
+                    RequireConsent = false, 
+                    //AccessTokenLifetime = 50,                    
+                    RedirectUris = new List<string>()
+                    {
+                        "http://localhost:8080/static/callback.html",
+                        "http://localhost:8080/static/silent-renew.html"
+                    },
+                    PostLogoutRedirectUris = {
+                        "http://localhost:8080/index.html"
+                    },
+                    AllowedCorsOrigins = {
+                        "http://localhost:8080"
+                    },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address,
+                        "roles",
+                        "identityserver4api",
+                        "country",
+                        "subscriptionlevel"
+                    },
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+
                 }
             };
     }
