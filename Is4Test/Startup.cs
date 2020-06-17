@@ -1,4 +1,3 @@
-using IdentityServer4.EntityFramework.DbContexts;
 using Is4.Domain;
 using Is4.EFCore.MySql.Extensions;
 using Is4.EFCore.Shared;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 namespace Is4Test
 {
     public class Startup
@@ -23,8 +21,7 @@ namespace Is4Test
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            
+        { 
             services.AddMySqlDbContexts(Configuration);
             services.AddIdentity<User, IdentityRole>().AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

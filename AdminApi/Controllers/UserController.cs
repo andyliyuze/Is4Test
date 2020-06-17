@@ -41,7 +41,7 @@ namespace AdminApi.Controllers
             var result = await _userService.GetUserById(id);
             return result;
         }
-
+        [AllowAnonymous]
         [Route("getList")]
         public async Task<ResponseBase<PaginatedList<GetUserOutput>>> GetList(int pageIndex, int pageSize)
         {

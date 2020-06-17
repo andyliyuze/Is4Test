@@ -19,8 +19,8 @@ namespace Is4.EFCore.MySql
         }
 
         public IQueryable<User> Query()
-        {      
-            return _dbContext.Users.AsQueryable();       
+        {
+            return _dbContext.Users.AsQueryable();
         }
     }
 }

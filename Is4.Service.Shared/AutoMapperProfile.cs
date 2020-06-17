@@ -24,11 +24,11 @@ namespace Is4.Service.Shared
                .ForMember(a => a.AllowedScopes, opt => opt.Ignore());
 
             CreateMap<CreateApiResourceInput, ApiResource>();
-            CreateMap<CreateApiScopeInput, ApiScope>();
-            CreateMap<CreateApiSecretInput, ApiSecret>();
+            CreateMap<CreateApiScopeInput, ApiResourceScope>();
+            CreateMap<CreateApiSecretInput, ApiResourceSecret>();
 
-            CreateMap<ApiScope, ApiScopeOutput>();
-            CreateMap<ApiSecret, ApiSecretOutput>();
+            CreateMap<ApiResourceScope, ApiScopeOutput>();
+            CreateMap<ApiResourceSecret, ApiSecretOutput>();
             CreateMap<ApiResource, ApiResourceOutput>();
 
             CreateMap<IdentityUserClaim<string>, ClaimOutput>().ForMember(a => a.Type, opt => opt.MapFrom(b => b.ClaimType)).ForMember(a => a.Value, opt => opt.MapFrom(b => b.ClaimValue));

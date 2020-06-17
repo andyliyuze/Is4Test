@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Is4.Domain;
-using System;
 
 namespace Is4.EFCore.Shared
 {
@@ -18,6 +17,11 @@ namespace Is4.EFCore.Shared
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            //builder.Entity<User>(b =>
+            //{
+            //    b.HasMany<IdentityUserClaim<string>>()
+            //     .WithOne().HasForeignKey("UserId").IsRequired(); ;
+            //});
             builder.Entity<User>().ToTable("Users");
             builder.Entity<IdentityRole>().ToTable("Roles");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
