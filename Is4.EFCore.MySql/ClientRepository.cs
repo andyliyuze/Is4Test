@@ -21,11 +21,16 @@ namespace Is4.EFCore.MySql
             await _dbContext.Clients.AddAsync(client);
         }
 
-        public IQueryable<Client> Query() 
+        public IQueryable<Client> Query()
         {
-            return _dbContext.Clients.AsQueryable().Include(a=>a.AllowedScopes).Include(a=>a.RedirectUris).Include(a=>a.ClientSecrets).Include(a=>a.Claims)
-                .Include(a => a.AllowedCorsOrigins).Include(a => a.AllowedGrantTypes).Include(a => a.IdentityProviderRestrictions).Include(a=>a.PostLogoutRedirectUris)
+            return _dbContext.Clients.AsQueryable().Include(a => a.AllowedScopes).Include(a => a.RedirectUris).Include(a => a.ClientSecrets).Include(a => a.Claims)
+                .Include(a => a.AllowedCorsOrigins).Include(a => a.AllowedGrantTypes).Include(a => a.IdentityProviderRestrictions).Include(a => a.PostLogoutRedirectUris)
                 .Include(a => a.Properties).Include(a => a.RedirectUris);
+        }
+
+        public async Task Update(Client client)
+        {
+            _dbContext.Clients.Update(client);
         }
     }
 }

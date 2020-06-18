@@ -28,6 +28,14 @@ namespace AdminApi.Controllers
             return result;
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("addScope")]
+        public async Task<ResponseBase<bool>> AddScope(AddScopeInput input) 
+        {
+            return await _clientService.AddScope(input);
+        }
+
         [HttpGet]
         [Route("getAllGrantTypes")]
         public IList<string> GetAllGrantTypes()

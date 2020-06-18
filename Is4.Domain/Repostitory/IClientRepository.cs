@@ -9,6 +9,8 @@ namespace Is4.Domain.Repostitory
     {
         Task Create(Client client);
 
+        Task Update(Client client);
+
         IQueryable<Client> Query();
     }
 }
