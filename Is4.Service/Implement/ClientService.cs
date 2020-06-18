@@ -11,13 +11,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.Stores;
 namespace Is4.Service.Implement
 {
     public class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
         private readonly IMapper _mapper;
-
         public ClientService(IClientRepository clientRepository, IMapper mapper)
         {
             _clientRepository = clientRepository;
@@ -32,6 +32,21 @@ namespace Is4.Service.Implement
             client.AllowedScopes = input.AllowedScopes.Select(a => new ClientScope() { Scope = a }).ToList();
             client.PostLogoutRedirectUris = input.PostLogoutRedirectUris.Select(a => new ClientPostLogoutRedirectUri() { PostLogoutRedirectUri = a }).ToList();
             await _clientRepository.Create(client);
+            return new ResponseBase<bool>() { Result = true };
+        }
+
+        public async Task<ResponseBase<bool>> AddScope(AddScopeInput input)
+        {
+            var item = _clientRepository.Query().FirstOrDefault(a => a.Id == input.ClientId);
+
+            if (item == null) { return new ResponseBase<bool>() { Message = "客户端不存在", Result = false }; }
+
+            if (item.AllowedScopes.Any(a => a.Scope.Equals(input.Scope, StringComparison.OrdinalIgnoreCase)))
+            {
+                return new ResponseBase<bool>() { Message = "客户端请求域已存在", Result = false };
+            }
+            (item.AllowedScopes ?? new List<ClientScope>()).Add(new ClientScope() { Scope = input.Scope });
+            await _clientRepository.Update(item);
             return new ResponseBase<bool>() { Result = true };
         }
 

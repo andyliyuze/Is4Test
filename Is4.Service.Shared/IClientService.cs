@@ -11,6 +11,8 @@ namespace Is4.Service.Shared
     {
         Task<ResponseBase<bool>> Create(CreateClientInput input);
 
+        Task<ResponseBase<bool>> AddScope(AddScopeInput input);
+
         IList<string> GetAllGrantTypes();
 
         Task<ResponseBase<PaginatedList<ClientOuput>>> GetList(int pageIndex, int pageSize);

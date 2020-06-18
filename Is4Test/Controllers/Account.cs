@@ -46,6 +46,7 @@ namespace Is4Test.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login(string returnUrl)
         {
+            var item = await _clientStore.FindClientByIdAsync("client");
             // build a model so we know what to show on the login page
             var vm = await BuildLoginViewModelAsync(returnUrl);
 

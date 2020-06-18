@@ -16,14 +16,14 @@ namespace Is4.EFCore.MySql.Extensions
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             var migrationsAssembly = typeof(RegisterDbContext).GetTypeInfo().Assembly.GetName().Name;
-            //typeof(RegisterDbContext).GetTypeInfo().Assembly.GetName().Name;
 
             // Config DB for identity
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
 
+            services.AddScoped<ConfigurationDbContext>();
             // Config DB from existing connection
             services.AddConfigurationDbContext(options => options.ConfigureDbContext = b =>
-            {                
+            {
                 b.UseMySql(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
             });
             //PersistedGrantDbContext
