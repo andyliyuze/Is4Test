@@ -11,17 +11,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using IdentityServer4.Stores;
+using MassTransit;
+using Is4.Domain.Shared.Events;
+
 namespace Is4.Service.Implement
 {
     public class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
         private readonly IMapper _mapper;
-        public ClientService(IClientRepository clientRepository, IMapper mapper)
+        private readonly IPublishEndpoint _publishEndpoint;
+        public ClientService(IClientRepository clientRepository, IPublishEndpoint publishEndpoint, IMapper mapper)
         {
             _clientRepository = clientRepository;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<ResponseBase<bool>> Create(CreateClientInput input)
@@ -47,6 +51,7 @@ namespace Is4.Service.Implement
             }
             (item.AllowedScopes ?? new List<ClientScope>()).Add(new ClientScope() { Scope = input.Scope });
             await _clientRepository.Update(item);
+            await _publishEndpoint.Publish(new ValueEntered() { Value = item.ClientId });
             return new ResponseBase<bool>() { Result = true };
         }
 
@@ -96,6 +101,7 @@ namespace Is4.Service.Implement
             var list = await _clientRepository.Query().Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
             var count = await _clientRepository.Query().CountAsync();
             var output = _mapper.Map<IList<ClientOuput>>(list);
+
             return new ResponseBase<PaginatedList<ClientOuput>>()
             {
                 Result = new PaginatedList<ClientOuput>(output, count, pageIndex, pageSize)

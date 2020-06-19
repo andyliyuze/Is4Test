@@ -42,6 +42,7 @@ namespace AdminApi
 
             services.AddAppService();
             services.AddRepository();
+            services.AddMasstransitService();
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
             services.AddAuthentication(options =>

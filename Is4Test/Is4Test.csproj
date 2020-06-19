@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.0.0-preview.6" />
+    <PackageReference Include="MassTransit.Autofac" Version="6.3.2" />
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.0-develop.2836" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
@@ -26,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Is4.Common\Is4.Common.csproj" />
     <ProjectReference Include="..\Is4.Domain\Is4.Domain.csproj" />
     <ProjectReference Include="..\Is4.EFCore.MySql\Is4.EFCore.MySql.csproj" />
     <ProjectReference Include="..\Is4.EFCore.Shared\Is4.EFCore.Shared.csproj" />

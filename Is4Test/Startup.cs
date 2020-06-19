@@ -1,10 +1,14 @@
+using Is4.Common.Extensions;
 using Is4.Domain;
 using Is4.EFCore.MySql.Extensions;
 using Is4.EFCore.Shared;
 using Is4Test.Extensions;
+using Is4Test.Services;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,14 +25,14 @@ namespace Is4Test
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { 
+        {
             services.AddMySqlDbContexts(Configuration);
             services.AddIdentity<User, IdentityRole>().AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             var builder = services.AddIdentityServer(options =>
-            {                
+            {
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
@@ -36,13 +40,25 @@ namespace Is4Test
             }).AddConfigurationStore().AddOperationalStore().AddConfigurationStoreCache();
 
             var identitybuilder = builder.AddAspNetIdentity<User>()
-                .AddProfileService<ImplicitProfileService>();                
+                .AddProfileService<ImplicitProfileService>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, CustomUserClaimsPrincipalFactory>();
-              
-            builder.AddDeveloperSigningCredential();
 
+            builder.AddDeveloperSigningCredential();
             services.AddControllersWithViews();
+       
+            services.AddMasstransitService((cfg, serviceProvider) =>
+            {              
+                cfg.ReceiveEndpoint("customer_update_queue", e =>
+                {
+                    e.Bind("value-enterd-exchange");
+                    e.Consumer(typeof(UpdateClientConsumer), a =>
+                    {
+                        var _cache = serviceProvider.GetService<IMemoryCache>();
+                        return new UpdateClientConsumer(_cache);
+                    });
+                });
+            }, hostService: false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

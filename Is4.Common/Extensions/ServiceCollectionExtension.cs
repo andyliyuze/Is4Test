@@ -1,6 +1,11 @@
 ﻿using Castle.DynamicProxy;
+using Is4.Domain.Shared.Events;
 using Is4.Shared;
+using MassTransit;
+using MassTransit.ExtensionsDependencyInjectionIntegration;
+using MassTransit.RabbitMqTransport;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -71,6 +76,42 @@ namespace Is4.Common.Extensions
 
                 services.AddScoped(interType, implType); ;
             }
+        }
+
+        public static void AddMasstransitService(this IServiceCollection services, Action<IServiceCollectionBusConfigurator, ServiceProvider> configurator = null, bool hostService = false)
+        {
+            services.AddMassTransit(x =>
+            {
+                x.AddBus(context =>
+                 {
+                     var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
+                          {
+                              cfg.Host(new Uri("amqp://102.17.1.164:30579"));
+
+                              cfg.ConfigureJsonDeserializer(settings =>
+                              {
+                                  settings.TypeNameHandling = TypeNameHandling.Auto;
+                                  return settings;
+                              });
+                              cfg.Message<ValueEntered>(x =>
+                              {
+                                  x.SetEntityName("value-enterd-exchange");
+                              });
+                              configurator?.Invoke(cfg, x.Collection.BuildServiceProvider());
+                          });
+                     //if (!hostService)
+                     //{
+                     //    busControl.StartAsync();
+                     //}
+                     //else
+                     //{
+                         
+                     //}
+                     return busControl;
+                 });
+                
+            });
+            services.AddMassTransitHostedService();
         }
     }
 
