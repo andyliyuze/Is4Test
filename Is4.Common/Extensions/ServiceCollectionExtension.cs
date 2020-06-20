@@ -78,10 +78,12 @@ namespace Is4.Common.Extensions
             }
         }
 
-        public static void AddMasstransitService(this IServiceCollection services, Action<IServiceCollectionBusConfigurator, ServiceProvider> configurator = null, bool hostService = false)
+        public static void AddMasstransitService(this IServiceCollection services, Action<IServiceCollectionBusConfigurator> configuratorx = null, Action<IRabbitMqBusFactoryConfigurator, ServiceProvider> configurator = null, bool hostService = false)
         {
             services.AddMassTransit(x =>
             {
+                configuratorx?.Invoke(x);
+               
                 x.AddBus(context =>
                  {
                      var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>

@@ -16,6 +16,7 @@ namespace CacheCleaner.Services
         {
             var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
+                //amqp://localhost:5672
                 cfg.Host(new Uri("amqp://172.17.1.164:30579"));
 
                 cfg.ConfigureJsonDeserializer(settings =>
