@@ -5,11 +5,29 @@
 </template>
 
 <script>
+import Mgr from "./services/SecurityService";
 export default {
   name: "App",
-
+  data() {
+    return {
+      mgr: new Mgr(),
+      signedIn: true
+    };
+  },
   mounted() {
-    this.$router.push({ path: "HelloWorld" });
+    this.mgr.getSignedIn().then(
+      signIn => {
+        this.signedIn = signIn;
+        if (signIn) {
+          this.$router.push({ path: "HelloWorld" });
+        } else {
+          // this.mgr.signIn();
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 };
 </script>
