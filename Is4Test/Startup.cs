@@ -48,7 +48,7 @@ namespace Is4Test
             services.AddControllersWithViews();
 
             services.AddMasstransitService(x =>
-            {            
+            {
                 //这个貌似不是必须的
                 //x.AddConsumer<UpdateClientConsumer>();
             }, (cfg, serviceProvider) =>
@@ -79,7 +79,7 @@ namespace Is4Test
 
             app.UseRouting();
 
-            // app.UseIdentityServer();
+            app.UseIdentityServer();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

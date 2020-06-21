@@ -1,67 +1,44 @@
 ﻿@model Is4Test.Model.LoginViewModel
-@{Layout = null;}
-<div class="login-page">
-    <div class="page-header">
-        <h1>Login</h1>
-    </div>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico">
+    <title>hello-world</title>
+    <link href="~/css/login.css" rel="stylesheet" />
 
-    <partial name="_ValidationSummary" />
-
-    <div class="row">
-
-        @if (Model.EnableLocalLogin)
-        {
-            <div class="col-sm-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Local Login</h3>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <form class="van-form" action="/account/login" method="post">
+                <input type="hidden" value="@Model.ReturnUrl" name="ReturnUrl" />
+                <div class="van-cell van-field">
+                    <div class="van-cell__title van-field__label">
+                        <span>用户名</span>
+                    </div><div class="van-cell__value van-field__value">
+                        <div class="van-field__body">
+                            <input type="text"  placeholder="用户名"  name="Username"  class="van-field__control">
+                        </div>
                     </div>
-                    <div class="panel-body">
-
-                        <form action="/account/login" method="post">
-                            <input type="hidden" value="@Model.ReturnUrl" name="ReturnUrl" />
-
-                            <fieldset>
-                                <div class="form-group">
-                                    <label name="Username"></label>
-                                    <input class="form-control" placeholder="Username" name="Username" autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <label name="Password"></label>
-                                    <input type="password" class="form-control" placeholder="Password" name="Password" autocomplete="off">
-                                </div>
-                                @if (Model.AllowRememberLogin)
-                                {
-                                    <div class="form-group login-remember">
-                                        <label for="RememberLogin">
-                                            <input type="checkbox" data-val="true" data-val-required="The RememberLogin field is required." id="RememberLogin" name="RememberLogin" value="true">
-                                            <strong>Remember My Login</strong>
-                                        </label>
-                                    </div>
-                                }
-
-                                <div>
-                                    <p>The default users are alice/bob, password: Pass123$</p>
-                                </div>
-
-                                <div class="form-group">
-                                    <button class="btn btn-primary" name="button" value="login">Login</button>
-                                    <button class="btn btn-default" name="button" value="cancel">Cancel</button>
-                                </div>
-                            </fieldset>
-                        </form>
+                </div><div class="van-cell van-field">
+                    <div class="van-cell__title van-field__label">
+                        <span>密码</span>
+                    </div><div class="van-cell__value van-field__value">
+                        <div class="van-field__body">
+                            <input type="password"  name="Password" placeholder="密码" class="van-field__control">
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
-
-
-        @if (!Model.EnableLocalLogin && !Model.VisibleExternalProviders.Any())
-        {
-            <div class="alert alert-warning">
-                <strong>Invalid login request</strong>
-                There are no login schemes configured for this client.
-            </div>
-        }
+                <div class="loginbtn_div" style="margin: 16px !important;">
+                    <button name="button" value="login" type="submit" class="mybtn van-button van-button--info van-button--normal van-button--block van-button--round">
+                        <div class="van-button__content">
+                            <span class="van-button__text">登录</span>
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+</body>
+</html>

@@ -34,5 +34,9 @@
     <ProjectReference Include="..\Is4.EFCore.Shared\Is4.EFCore.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\js\mobile\" />
+  </ItemGroup>
+
 
 </Project>

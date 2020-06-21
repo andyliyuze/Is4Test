@@ -19,18 +19,18 @@ namespace Is4.EFCore.MySql.Extensions
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                //await serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.MigrateAsync();
+                await serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.MigrateAsync();
 
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-                //await context.Database.MigrateAsync();
+                await context.Database.MigrateAsync();
 
-                //var context2 = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
-                //await context2.Database.MigrateAsync();
+                var context2 = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+                await context2.Database.MigrateAsync();
 
-                
-                //var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
 
-                var users = new List<User>() { new User() { UserName = "bob" } };
+                var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
+
+                //var users = new List<User>() { new User() { UserName = "bob" } };
                 //foreach (var user in users)
                 //{
                 //    var identityUser = new User
