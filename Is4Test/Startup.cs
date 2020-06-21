@@ -48,8 +48,9 @@ namespace Is4Test
             services.AddControllersWithViews();
 
             services.AddMasstransitService(x =>
-            {
-                x.AddConsumer<UpdateClientConsumer>();
+            {            
+                //这个貌似不是必须的
+                //x.AddConsumer<UpdateClientConsumer>();
             }, (cfg, serviceProvider) =>
              {
                  cfg.ReceiveEndpoint("customer_update_queue", e =>
@@ -57,6 +58,7 @@ namespace Is4Test
                      e.Bind("value-enterd-exchange");
                      e.Consumer(typeof(UpdateClientConsumer), a =>
                      {
+                         //每接收到一条消息都会有一次依赖解析
                          var _cache = serviceProvider.GetService<IMemoryCache>();
                          return new UpdateClientConsumer(_cache);
                      });

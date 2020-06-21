@@ -88,7 +88,8 @@ namespace Is4.Common.Extensions
                  {
                      var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
                           {
-                              cfg.Host(new Uri("amqp://102.17.1.164:30579"));
+                              //102.17.1.164:30579 
+                              cfg.Host(new Uri("amqp://localhost:5672"));
 
                               cfg.ConfigureJsonDeserializer(settings =>
                               {
