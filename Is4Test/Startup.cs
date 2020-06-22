@@ -37,7 +37,10 @@ namespace Is4Test
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
-            }).AddConfigurationStore().AddOperationalStore().AddConfigurationStoreCache();
+            })
+            //    .AddTestUsers(TestUsers.Users).AddInMemoryApiResources(Config.Apis).AddInMemoryClients(Config.Clients)
+            //.AddInMemoryIdentityResources(Config.Ids);
+            .AddConfigurationStore().AddOperationalStore().AddConfigurationStoreCache();
 
             var identitybuilder = builder.AddAspNetIdentity<User>()
                 .AddProfileService<ImplicitProfileService>();

@@ -30,22 +30,22 @@ namespace Is4.EFCore.MySql.Extensions
 
                 var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
 
-                //var users = new List<User>() { new User() { UserName = "bob" } };
-                //foreach (var user in users)
-                //{
-                //    var identityUser = new User
-                //    {
-                //        UserName = user.UserName,
-                //        Email = user.Email,
-                //        EmailConfirmed = true
-                //    };
+                var users = new List<User>() { new User() { UserName = "bob" } };
+                foreach (var user in users)
+                {
+                    var identityUser = new User
+                    {
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        EmailConfirmed = true
+                    };
 
-                //    // if there is no password we create user without password
-                //    // user can reset password later, because accounts have EmailConfirmed set to true
+                    // if there is no password we create user without password
+                    // user can reset password later, because accounts have EmailConfirmed set to true
 
-                //    await userManager.CreateAsync(identityUser, "Pass123$");
+                    await userManager.CreateAsync(identityUser, "Pass123$");
 
-                //}
+                }
 
                 foreach (var item in Config.Apis)
                 {

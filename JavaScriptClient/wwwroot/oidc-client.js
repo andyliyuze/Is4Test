@@ -22852,7 +22852,28 @@ var UserManager = exports.UserManager = function (_OidcClient) {
         });
     };
 
-    UserManager.prototype._signinEnd = function _signinEnd(url) {
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         var _this12 = this;
 
         var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};

@@ -6,11 +6,11 @@ var mgr = new Oidc.UserManager({
   userStore: new Oidc.WebStorageStateStore(),
   authority: 'https://localhost:5001',
   client_id: 'vuejsclient',
-  redirect_uri: window.location.origin + '/static/callback.html',
+  redirect_uri: window.location.origin + '/callback.html',
   response_type: 'id_token token',
   scope: 'openid profile',
   post_logout_redirect_uri: window.location.origin + '/index.html',
-  silent_redirect_uri: window.location.origin + '/static/silent-renew.html',
+  silent_redirect_uri: window.location.origin + '/silent-renew.html',
   accessTokenExpiringNotificationTime: 10,
   automaticSilentRenew: true,
   filterProtocolClaims: true,
@@ -96,7 +96,7 @@ export default class SecurityService {
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
-          //self.signIn()
+          self.signIn()
           return resolve(false)
         } else {
           return resolve(true)
@@ -180,6 +180,10 @@ export default class SecurityService {
 
   // Get the access token of the logged in user
   getAcessToken() {
+    mgr.getAcessToken().then(a => {
+      console.log(a);
+
+    });
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
