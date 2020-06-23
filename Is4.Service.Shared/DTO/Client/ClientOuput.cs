@@ -15,7 +15,7 @@ namespace Is4.Service.Shared.DTO.Client
             AllowedCorsOrigins = new List<string>();
             AllowedGrantTypes = new List<string>();
             Claims = new List<CreateClientClaimInput>();
-            Properties = new List<CreateClientPropertyInput>();
+            Properties = new List<CreateClientPropertyInput>();             
         }
 
         public ClientType ClientType { get; set; }

@@ -20,7 +20,11 @@ namespace Is4.EFCore.Shared
         public static IEnumerable<ApiResource> Apis =>
             new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource("api1", "My API"),
+                new ApiResource("AdminApi", "用户管理"){
+                ApiSecrets = {
+                    new Secret("secret".Sha256())
+                }}
             };
 
         public static IEnumerable<Client> Clients =>

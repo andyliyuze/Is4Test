@@ -65,7 +65,7 @@ namespace Is4.Common.Extensions
             string assemblyObjName = "Is4.EFCore.MySql";
             var interTypes = Assembly.Load(assemblyInterName).GetTypes().Where(t => t.IsInterface && iNeedInject.IsAssignableFrom(t)).ToArray();
             var implTypes = Assembly.Load(assemblyObjName).GetTypes();
-
+            
             foreach (var interType in interTypes)
             {
                 var implType = implTypes.Where(t => t.IsClass && interType.IsAssignableFrom(t)).SingleOrDefault();
@@ -101,15 +101,7 @@ namespace Is4.Common.Extensions
                                   x.SetEntityName("value-enterd-exchange");
                               });
                               configurator?.Invoke(cfg, x.Collection.BuildServiceProvider());
-                          });
-                     //if (!hostService)
-                     //{
-                     //    busControl.StartAsync();
-                     //}
-                     //else
-                     //{
-                         
-                     //}
+                          });                     
                      return busControl;
                  });
                 

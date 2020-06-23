@@ -10,5 +10,7 @@ namespace Is4.Service.Shared
         Task<ResponseBase<bool>> Create(CreateApiResourceInput createApiResourceInput);
 
         Task<ResponseBase<PaginatedList<ApiResourceOutput>>> GetList(int pageIndex, int pageCount);
+
+        Task<ResponseBase<bool>> CreateSecret(CreateApiSecretInput createApiSecretInput);
     }
 }

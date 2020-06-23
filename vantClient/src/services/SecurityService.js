@@ -8,7 +8,8 @@ var mgr = new Oidc.UserManager({
   client_id: 'vuejsclient',
   redirect_uri: window.location.origin + '/callback.html',
   response_type: 'id_token token',
-  scope: 'openid profile',
+  scope: 'openid profile AdminApi',
+  secret: 'secret',
   post_logout_redirect_uri: window.location.origin + '/index.html',
   silent_redirect_uri: window.location.origin + '/silent-renew.html',
   accessTokenExpiringNotificationTime: 10,
@@ -180,10 +181,6 @@ export default class SecurityService {
 
   // Get the access token of the logged in user
   getAcessToken() {
-    mgr.getAcessToken().then(a => {
-      console.log(a);
-
-    });
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {

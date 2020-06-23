@@ -19,7 +19,7 @@ namespace AdminApi.Controllers
             _userService = userService;
         }
 
-        [AllowAnonymous]
+     
         [Route("create")]
         public async Task<ResponseBase<bool>> Create([FromForm] CreateUserInput input)
         { 

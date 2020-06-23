@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.Models;
 using Is4.Common.CustomAttributes;
 using Is4.Domain.Repostitory;
@@ -67,6 +68,16 @@ namespace Is4.Service.Shared
             response.Result = paginatedList;
 
             return response;
+        }
+
+        public async Task<ResponseBase<bool>> CreateSecret(CreateApiSecretInput createApiSecretInput)
+        {
+            var apiResource = _apiResourceRepository.Query().FirstOrDefault(a => a.Name == createApiSecretInput.ApiName);
+            var secret = _mapper.Map<ApiResourceSecret>(createApiSecretInput);
+            secret.Value = createApiSecretInput.Value.Sha256();
+            apiResource.Secrets.Add(secret);
+            await _apiResourceRepository.Update(apiResource);
+            return new ResponseBase<bool>() { Result = true };
         }
     }
 }

@@ -37,5 +37,14 @@ namespace AdminApi.Controllers
             var result = await _apiResourceService.GetList(pageIndex, pageSize);
             return result;
         }
+
+        [HttpPost]
+        [Route("createSecret")]
+        [AllowAnonymous]
+        public async Task<ResponseBase<bool>> CreateSecret(CreateApiSecretInput createApiSecretInput)
+        {
+            var result = await _apiResourceService.CreateSecret(createApiSecretInput);
+            return result;
+        }
     }
 }

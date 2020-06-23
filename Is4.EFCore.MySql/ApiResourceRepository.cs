@@ -22,7 +22,12 @@ namespace Is4.EFCore.MySql
 
         public IQueryable<ApiResource> Query()
         {
-            return _dbContext.ApiResources.AsQueryable().Include(a=>a.Scopes).Include(a=>a.UserClaims).Include(a=>a.Secrets).Include(a=>a.Properties);
+            return _dbContext.ApiResources.AsQueryable().Include(a => a.Scopes).Include(a => a.UserClaims).Include(a => a.Secrets).Include(a => a.Properties);
+        }
+
+        public async Task Update(ApiResource apiResource)
+        {
+            _dbContext.ApiResources.Update(apiResource);
         }
     }
 }

@@ -3,7 +3,7 @@ import Oidc from 'oidc-client';
 import 'babel-polyfill';
 
 var mgr = new Oidc.UserManager({
-  userStore: new Oidc.WebStorageStateStore(),  
+  userStore: new Oidc.WebStorageStateStore(),
   authority: 'https://localhost:5001',
   client_id: 'vuejsclient',
   redirect_uri: window.location.origin + '/static/callback.html',
@@ -20,7 +20,7 @@ var mgr = new Oidc.UserManager({
 Oidc.Log.logger = console;
 Oidc.Log.level = Oidc.Log.INFO;
 
-mgr.events.addUserLoaded(function (user) {  
+mgr.events.addUserLoaded(function (user) {
   console.log('New User Loaded：', arguments);
   console.log('Acess_token: ', user.access_token)
 });
@@ -30,7 +30,7 @@ mgr.events.addAccessTokenExpiring(function () {
 });
 
 mgr.events.addAccessTokenExpired(function () {
-  console.log('AccessToken Expired：', arguments);  
+  console.log('AccessToken Expired：', arguments);
   alert('Session expired. Going out!');
   mgr.signoutRedirect().then(function (resp) {
     console.log('signed out', resp);
@@ -45,7 +45,7 @@ mgr.events.addSilentRenewError(function () {
 
 mgr.events.addUserSignedOut(function () {
   alert('Going out!');
-  console.log('UserSignedOut：', arguments);  
+  console.log('UserSignedOut：', arguments);
   mgr.signoutRedirect().then(function (resp) {
     console.log('signed out', resp);
   }).catch(function (err) {
@@ -56,13 +56,13 @@ mgr.events.addUserSignedOut(function () {
 export default class SecurityService {
 
   // Renew the token manually
-  renewToken () {
+  renewToken() {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.signinSilent().then(function (user) {
         if (user == null) {
           self.signIn(null)
-        } else{
+        } else {
           return resolve(user)
         }
       }).catch(function (err) {
@@ -73,14 +73,14 @@ export default class SecurityService {
   }
 
   // Get the user who is logged in
-  getUser () {
+  getUser() {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user)
         }
       }).catch(function (err) {
@@ -91,14 +91,14 @@ export default class SecurityService {
   }
 
   // Check if there is any user logged in
-  getSignedIn () {
+  getSignedIn() {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(false)
-        } else{
+        } else {
           return resolve(true)
         }
       }).catch(function (err) {
@@ -109,14 +109,14 @@ export default class SecurityService {
   }
 
   // Redirect of the current window to the authorization endpoint.
-  signIn () {
+  signIn() {
     mgr.signinRedirect().catch(function (err) {
       console.log(err)
     })
   }
-  
+
   // Redirect of the current window to the end session endpoint
-  signOut () {    
+  signOut() {
     mgr.signoutRedirect().then(function (resp) {
       console.log('signed out', resp);
     }).catch(function (err) {
@@ -125,14 +125,14 @@ export default class SecurityService {
   }
 
   // Get the profile of the user logged in
-  getProfile () {
+  getProfile() {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.profile)
         }
       }).catch(function (err) {
@@ -143,14 +143,14 @@ export default class SecurityService {
   }
 
   // Get the token id
-  getIdToken(){
+  getIdToken() {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.id_token)
         }
       }).catch(function (err) {
@@ -161,14 +161,14 @@ export default class SecurityService {
   }
 
   // Get the session state
-  getSessionState(){
+  getSessionState() {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.session_state)
         }
       }).catch(function (err) {
@@ -179,14 +179,14 @@ export default class SecurityService {
   }
 
   // Get the access token of the logged in user
-  getAcessToken(){
+   getAcessToken() {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.access_token)
         }
       }).catch(function (err) {
@@ -197,14 +197,14 @@ export default class SecurityService {
   }
 
   // Takes the scopes of the logged in user
-  getScopes(){
+  getScopes() {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.scopes)
         }
       }).catch(function (err) {
@@ -215,14 +215,14 @@ export default class SecurityService {
   }
 
   // Get the user roles logged in
-  getRole () {
+  getRole() {
     let self = this
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
           self.signIn()
           return resolve(null)
-        } else{          
+        } else {
           return resolve(user.profile.role)
         }
       }).catch(function (err) {

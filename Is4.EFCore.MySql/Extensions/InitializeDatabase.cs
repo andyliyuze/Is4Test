@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,7 +28,6 @@ namespace Is4.EFCore.MySql.Extensions
                 var context2 = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
                 await context2.Database.MigrateAsync();
 
-
                 var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
 
                 var users = new List<User>() { new User() { UserName = "bob" } };
@@ -46,7 +46,6 @@ namespace Is4.EFCore.MySql.Extensions
                     await userManager.CreateAsync(identityUser, "Pass123$");
 
                 }
-
                 foreach (var item in Config.Apis)
                 {
                     context.ApiResources.Add(item.ToEntity());

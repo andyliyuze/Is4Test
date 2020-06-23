@@ -33,6 +33,9 @@ namespace AdminApi
         {
             services.AddMySqlDbContexts(Configuration);
 
+            services.AddCors(option => option.AddPolicy("cors", policy =>
+            policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("*")));
+
             services.AddIdentity<User, IdentityRole>()
                .AddEntityFrameworkStores<ApplicationDbContext>()
                .AddDefaultTokenProviders();
@@ -57,6 +60,7 @@ namespace AdminApi
             {
                 options.Authority = "https://localhost:5001";
                 options.ApiName = "AdminApi";
+                options.ApiSecret = "secret";
                 options.RequireHttpsMetadata = false;
             });
 
@@ -71,7 +75,7 @@ namespace AdminApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors("cors");
             app.UseAuthentication();
 
             //app.UseHttpsRedirection();

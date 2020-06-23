@@ -10,5 +10,7 @@ namespace Is4.Domain.Repostitory
         Task Create(ApiResource apiResource);
 
         IQueryable<ApiResource> Query();
+
+        Task Update(ApiResource client);
     }
 }
