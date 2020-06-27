@@ -19,10 +19,11 @@ namespace AdminApi.Controllers
             _userService = userService;
         }
 
-     
+        [RequestSizeLimit(100_000_000)]
         [Route("create")]
-        public async Task<ResponseBase<bool>> Create([FromForm] CreateUserInput input)
-        { 
+        public async Task<ResponseBase<bool>> Create([FromBody]CreateUserInput input)
+        {
+            var re = this.Request;
             var result = await _userService.Create(input);
             return result;
         }

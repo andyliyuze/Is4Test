@@ -19,13 +19,17 @@ export default class userService {
 
     async createUser(data) {
         await this.defineHeaderAxios()
-        return axios
-            .post(baseUrl + "user/create", data, {
-                headers: { 'content-type': 'application/form-data' },
-            })
-            .then(response => response.data)
-            .catch(err => {
-                console.log(err);
-            })
+        return new Promise((resolve, reject) => {
+            axios
+                .post(baseUrl + "user/create", data, {
+                    // headers: { 'content-type': 'application/form-data' },
+                })
+                .then(response => resolve(response.data))
+                .catch(err => {
+                    console.log(err);
+                })
+        })
     }
+
+
 }

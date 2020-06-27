@@ -10,6 +10,6 @@ namespace Is4.Service.Shared.DTO
 
         public string Password { get; set; }
 
-        public IFormFile Head { get; set; }
+        public string Head { get; set; }
     }
 }

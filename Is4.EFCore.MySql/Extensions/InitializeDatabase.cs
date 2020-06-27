@@ -29,7 +29,7 @@ namespace Is4.EFCore.MySql.Extensions
                 await context2.Database.MigrateAsync();
 
                 var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
-
+                
                 var users = new List<User>() { new User() { UserName = "bob" } };
                 foreach (var user in users)
                 {

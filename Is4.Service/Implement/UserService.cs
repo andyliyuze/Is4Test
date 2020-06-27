@@ -9,9 +9,11 @@ using Microsoft.Extensions.PlatformAbstractions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Is4.Service.Implement
@@ -38,16 +40,26 @@ namespace Is4.Service.Implement
         public async Task<ResponseBase<bool>> Create(CreateUserInput input)
         {
             var user = _mapper.Map<User>(input);
-
-            user.HeadUrl = $"UserHead/{input.UserName}.jpg";
-            var basePath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, user.HeadUrl);
+            user.HeadUrl = $"/UserHead/{input.UserName}.jpg";
+            var directoryPath = Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "UserHead");
+            if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+            var basePath = Path.Combine(directoryPath, $"{input.UserName}.jpg");
             var result = await _userManager.CreateAsync(user, input.Password);
             //保存图片
             if (result.Succeeded)
             {
-                using (var strem = input.Head.OpenReadStream())
+                var match = Regex.Match(input.Head, "data:image/(png|jpeg);base64,([\\w\\W]*)$");
+               
+                if (match.Success)
                 {
-                    var img = Image.FromStream(strem);
+                    input.Head = match.Groups[2].Value;
+                }
+
+                var photoBytes = Convert.FromBase64String(input.Head);
+                 
+                using (MemoryStream ms = new MemoryStream(photoBytes, 0, photoBytes.Length))
+                {
+                    var img = Image.FromStream(ms);
 
                     SaveThumbImg(img, basePath, 300, 300);
                 }
@@ -66,7 +78,13 @@ namespace Is4.Service.Implement
             {
                 try
                 {
+                    var by = ImageToBytes(displayImage);
+                    System.IO.File.WriteAllBytes(thumbPath, by);
                     displayImage.Save(thumbPath, original.RawFormat);
+                }
+                catch (Exception ex)
+                {
+
                 }
                 finally
                 {
@@ -119,6 +137,21 @@ namespace Is4.Service.Implement
                 newHeight = height;
             }
             return new Size(newWidth, newHeight);
+        }
+
+
+        public byte[] ImageToBytes(Image image)
+        {
+           
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, ImageFormat.Jpeg);
+                byte[] buffer = new byte[ms.Length];
+                //Image.Save()会改变MemoryStream的Position，需要重新Seek到Begin
+                ms.Seek(0, SeekOrigin.Begin);
+                ms.Read(buffer, 0, buffer.Length);
+                return buffer;
+            }
         }
         public async Task<ResponseBase<bool>> CreateClaim(CreateUserClaimInput input)
         {

@@ -8,10 +8,10 @@
     <van-button plain hairline type="primary">细边框按钮</van-button>
     <van-button plain hairline type="info">细边框按钮</van-button>
     <van-tabbar v-model="active">
-      <van-tabbar-item icon="home-o">标签</van-tabbar-item>
+      <van-tabbar-item icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item icon="search">标签</van-tabbar-item>
       <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
+      <van-tabbar-item icon="setting-o" @click="toUserInfo">我的</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -42,6 +42,9 @@ export default {
     },
     toClient() {
       this.$router.push("client/index");
+    },
+    toUserInfo() {
+      this.$router.push("UserInfo");
     }
   }
 };
