@@ -74,7 +74,7 @@ namespace Is4Test
         {
             if (env.IsDevelopment())
             {
-                //InitializeDatabase.Run(app).Wait();
+                InitializeDatabase.Run(app).Wait();
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
