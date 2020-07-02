@@ -27,6 +27,10 @@
           @confirm="onConfirm"
         />
       </van-popup>
+
+      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="getClients">
+        <van-cell v-for="item in list" :key="item.id" :title="item.clientId" />
+      </van-list>
     </div>
   </div>
 </template>
@@ -49,7 +53,9 @@
 }
 </style>
 <script>
-import { Field, Icon, Popup, Picker, Row, Col, Search } from "vant";
+import { Field, Icon, Popup, Picker, Row, Col, Search, List, Cell } from "vant";
+import ClientService from "@/services/ClientService";
+import pager from "@/utility/pager";
 export default {
   components: {
     [Icon.name]: Icon,
@@ -58,14 +64,21 @@ export default {
     [Picker.name]: Picker,
     [Row.name]: Row,
     [Col.name]: Col,
-    [Search.name]: Search
+    [Search.name]: Search,
+    [List.name]: List,
+    [Cell.name]: Cell
   },
   data() {
     return {
+      pager: pager,
+      finished: false,
+      loading: false,
+      clientService: new ClientService(),
       keyword: "",
       value: "城市",
       showPicker: false,
-      columns: ["杭州", "宁波", "温州", "嘉兴", "湖州"]
+      columns: ["杭州", "宁波", "温州", "嘉兴", "湖州"],
+      list: []
     };
   },
   methods: {
@@ -78,6 +91,22 @@ export default {
     },
     onSearch2() {
       console.log(222);
+    },
+    async getClients() {
+      this.pager.pageIndex++;
+      var result = await this.clientService.getClients({
+        pageIndex: this.pager.pageIndex,
+        pageSize: this.pager.pageSize
+      });
+
+      this.list.push(...result.data);
+
+      this.loading = false;
+      if (result.hasNextPage) {
+        this.finished = false;
+      } else {
+        this.finished = true;
+      }
     }
   }
 };

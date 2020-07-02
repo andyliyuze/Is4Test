@@ -44,8 +44,7 @@ namespace AdminApi.Controllers
         }
 
         [HttpGet]
-        [Route("getList")]
-        [AllowAnonymous]
+        [Route("getList")]   
         public async Task<ResponseBase<PaginatedList<ClientOuput>>> GetList(int pageIndex, int pageSize)
         {
             return await _clientService.GetList(pageIndex, pageSize);
