@@ -14,12 +14,14 @@ namespace Is4.Service.Shared
 {
     public class ApiResourceService : IApiResourceService
     {
+        private readonly IIdentityresourceRepository _identityresourceRepository;
         private readonly IApiResourceRepository _apiResourceRepository;
         private readonly IMapper _mapper;
         private const string SharedSecret = "SharedSecret";
-        public ApiResourceService(IApiResourceRepository apiResourceRepository, IMapper mapper)
+        public ApiResourceService(IApiResourceRepository apiResourceRepository, IIdentityresourceRepository identityresourceRepository, IMapper mapper)
         {
             _apiResourceRepository = apiResourceRepository;
+            _identityresourceRepository = identityresourceRepository;
             _mapper = mapper;
         }
 
@@ -78,6 +80,20 @@ namespace Is4.Service.Shared
             apiResource.Secrets.Add(secret);
             await _apiResourceRepository.Update(apiResource);
             return new ResponseBase<bool>() { Result = true };
+        }
+
+        public async Task<ResponseBase<List<ScopeListOutput>>> GetAllScopes()
+        {
+            var output = new List<ScopeListOutput>();
+            var apis = _apiResourceRepository.Query().Select(a => new { a.Name, a.Scopes }).ToList();
+
+            var idrs = _identityresourceRepository.Query().Select(a => a.Name).ToList();
+            output.Add(new ScopeListOutput() { ApiName = "identityresource", Scopes = idrs });
+            foreach (var item in apis)
+            {
+                output.Add(new ScopeListOutput() { ApiName = item.Name, Scopes = item.Scopes.Select(a => a.Scope).ToList() });
+            }
+            return new ResponseBase<List<ScopeListOutput>>() { Result = output };
         }
     }
 }

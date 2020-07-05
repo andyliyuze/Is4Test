@@ -22,7 +22,7 @@ namespace Is4.Service.Shared.DTO.Client
 
         public int AccessTokenLifetime { get; set; } = 3600;
 
-        public AccessTokenType AccessTokenType { get; set; }
+        public string AccessTokenType { get; set; }
 
         public bool AllowAccessTokensViaBrowser { get; set; }
 

@@ -5,8 +5,6 @@ using Is4.Domain;
 
 namespace Is4.EFCore.Shared
 {
-
-
     public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -17,7 +15,7 @@ namespace Is4.EFCore.Shared
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-         
+
             builder.Entity<User>().ToTable("Users");
             builder.Entity<IdentityRole>().ToTable("Roles");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");

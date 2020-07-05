@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Events;
@@ -12,6 +13,7 @@ using Is4Test.Extensions;
 using Is4Test.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,8 +33,9 @@ namespace Is4Test.Controllers
         private readonly IClientStore _clientStore;
         private readonly IEventService _events;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
+        private readonly IDataProtector DataProtector;
         public AccountController(IIdentityServerInteractionService interaction, UserManager<User> userManager, SignInManager<User> signInManager,
-            IClientStore clientStore, IEventService events, IAuthenticationSchemeProvider schemeProvider)
+            IClientStore clientStore, IEventService events, IAuthenticationSchemeProvider schemeProvider, IDataProtectionProvider provider)
         {
             _userManager = userManager;
             _clientStore = clientStore;
@@ -40,12 +43,13 @@ namespace Is4Test.Controllers
             _interaction = interaction;
             _schemeProvider = schemeProvider;
             _events = events;
+            DataProtector = provider.CreateProtector("IdentityServer4.Stores.ProtectedDataMessageStore");
         }
         // GET: /<controller>/
         [HttpGet]
         [Route("Login")]
         public async Task<IActionResult> Login(string returnUrl)
-        {            
+        {
             // build a model so we know what to show on the login page
             var vm = await BuildLoginViewModelAsync(returnUrl);
 

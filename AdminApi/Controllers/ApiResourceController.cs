@@ -12,6 +12,7 @@ namespace AdminApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ApiResourceController : ControllerBase
     {
         private readonly IApiResourceService _apiResourceService;
@@ -31,7 +32,7 @@ namespace AdminApi.Controllers
 
         [HttpGet]
         [Route("getList")]
-        [AllowAnonymous]
+
         public async Task<ResponseBase<PaginatedList<ApiResourceOutput>>> GetList(int pageIndex, int pageSize)
         {
             var result = await _apiResourceService.GetList(pageIndex, pageSize);
@@ -40,11 +41,19 @@ namespace AdminApi.Controllers
 
         [HttpPost]
         [Route("createSecret")]
-        [AllowAnonymous]
+
         public async Task<ResponseBase<bool>> CreateSecret(CreateApiSecretInput createApiSecretInput)
         {
             var result = await _apiResourceService.CreateSecret(createApiSecretInput);
             return result;
+        }
+
+
+        [HttpGet]
+        [Route("getAllScopes")]
+        public async Task<ResponseBase<List<ScopeListOutput>>> GetAllScopes()
+        {
+            return await _apiResourceService.GetAllScopes();
         }
     }
 }

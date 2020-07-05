@@ -38,6 +38,7 @@ namespace Is4.Service.Shared
             CreateMap<IdentityRole, RoleOutput>();
             CreateMap<RoleClaimInput, IdentityRoleClaim<string>>();
 
+            CreateMap<IdentityServer4.Models.AccessTokenType, string>().ConvertUsing(b => b.ToString());
             CreateMap<ClientScope, string>().ConvertUsing(b => b.Scope);
             CreateMap<ClientPostLogoutRedirectUri, string>().ConvertUsing(b => b.PostLogoutRedirectUri);
             CreateMap<ClientRedirectUri, string>().ConvertUsing(b => b.RedirectUri);
@@ -45,8 +46,8 @@ namespace Is4.Service.Shared
             CreateMap<ClientGrantType, string>().ConvertUsing(b => b.GrantType);
             CreateMap<ClientClaim, CreateClientClaimInput>();
             CreateMap<ClientProperty, CreateClientPropertyInput>();
-         
-            CreateMap<Client, ClientOuput>();
+
+            CreateMap<Client, ClientOuput>().ForMember(a => a.AccessTokenType, opt => opt.MapFrom(b => ((IdentityServer4.Models.AccessTokenType)b.AccessTokenType).ToString()));
 
         }
     }

@@ -74,11 +74,11 @@ namespace Is4Test
         {
             if (env.IsDevelopment())
             {
-                InitializeDatabase.Run(app).Wait();
+              //  InitializeDatabase.Run(app).Wait();
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
-            app.UseHttpsRedirection();
+          //  app.UseHttpsRedirection();
 
             app.UseRouting();
 

@@ -4,7 +4,7 @@ import 'babel-polyfill';
 
 var mgr = new Oidc.UserManager({
   userStore: new Oidc.WebStorageStateStore(),
-  authority: 'https://localhost:5001',
+  authority: 'http://192.168.43.149:5000',
   client_id: 'vuejsclient',
   redirect_uri: window.location.origin + '/callback.html',
   response_type: 'id_token token',

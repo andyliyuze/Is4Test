@@ -58,7 +58,7 @@ namespace AdminApi
             })
             .AddIdentityServerAuthentication(options =>
             {
-                options.Authority = "https://localhost:5001";
+                options.Authority = "http://192.168.43.149:5000";
                 options.ApiName = "AdminApi";
                 options.ApiSecret = "secret";
                 options.RequireHttpsMetadata = false;

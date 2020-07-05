@@ -1,21 +1,19 @@
 ﻿@model Is4Test.Model.LoggedOutViewModel
 
-@{ 
+@{
     // set this so the layout rendering sees an anonymous user
     ViewData["signed-out"] = true;
 }
 
 <div class="page-header logged-out">
     <h1>
-        Logout
-        <small>You are now logged out</small>
+        <small>正在退出登录</small>
     </h1>
 
     @if (Model.PostLogoutRedirectUri != null)
     {
         <div>
-            Click <a class="PostLogoutRedirectUri" href="@Model.PostLogoutRedirectUri">here</a> to return to the
-            <span>@Model.ClientName</span> application.
+            如果没有退出，请点击这里<a class="PostLogoutRedirectUri" href="@Model.PostLogoutRedirectUri">here</a> to return to the          
         </div>
     }
 
@@ -25,10 +23,9 @@
     }
 </div>
 
-@section scripts
+
+@if (Model.AutomaticRedirectAfterSignOut)
 {
-    @if (Model.AutomaticRedirectAfterSignOut)
-    {
-        <script src="~/js/signout-redirect.js"></script>
-    }
+    <script src="~/js/signout-redirect.js"></script>
 }
+

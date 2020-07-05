@@ -61,7 +61,7 @@ namespace Is4.Service.Implement
             {
                 case ClientType.Empty:
                     break;
-                case ClientType.WebHybrid:
+                case ClientType.Hybrid:
                     client.AllowedGrantTypes.AddRange(IdentityServer4.Models.GrantTypes.Hybrid);
                     break;
                 case ClientType.Spa:
@@ -69,7 +69,7 @@ namespace Is4.Service.Implement
                     client.RequirePkce = true;
                     client.RequireClientSecret = false;
                     break;
-                case ClientType.Native:
+                case ClientType.Implicit:
                     client.AllowedGrantTypes.AddRange(IdentityServer4.Models.GrantTypes.Implicit);
                     break;
                 case ClientType.Machine:
