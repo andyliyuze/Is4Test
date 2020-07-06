@@ -23,24 +23,24 @@
     <van-field size="small" name="accessTokenType" label="Token类型">
       <template #input>
         <van-radio-group v-model="model.accessTokenType" direction="horizontal">
-          <van-radio name="0">Jwt</van-radio>
-          <van-radio name="1">Reference</van-radio>
+          <van-radio :name="0">Jwt</van-radio>
+          <van-radio :name="1">Reference</van-radio>
         </van-radio-group>
       </template>
     </van-field>
 
-  <van-field size="small" name="clientType" label="客户端类型">
+    <van-field size="small" name="clientType" label="客户端类型">
       <template #input>
-       <span @click="showPicker=true">{{model.clientType}}</span>
+        <span @click="showPicker=true">{{model.clientTypeText}}</span>
         <van-popup v-model="showPicker" round position="bottom">
-        <van-picker
-          show-toolbar
-          :columns="clientTypes"
-          @cancel="showPicker = false"
-          @confirm="onConfirm"
-        />
-      </van-popup>
-        </template>
+          <van-picker
+            show-toolbar
+            :columns="clientTypes"
+            @cancel="showPicker = false"
+            @confirm="onConfirm"
+          />
+        </van-popup>
+      </template>
     </van-field>
 
     <div class="scope_div">
@@ -84,6 +84,7 @@
 <script>
 import ClientService from "@/services/ClientService";
 import {
+  Toast,
   Picker,
   Popup,
   CheckboxGroup,
@@ -102,8 +103,9 @@ import {
 } from "vant";
 export default {
   components: {
-      [Picker.name]: Picker,
-      [Popup.name]: Popup,
+    [Toast.name]: Toast,
+    [Picker.name]: Picker,
+    [Popup.name]: Popup,
     [CheckboxGroup.name]: CheckboxGroup,
     [Checkbox.name]: Checkbox,
     [Icon.name]: Icon,
@@ -123,7 +125,7 @@ export default {
       clientService: new ClientService(),
       allScopes: [],
       clientTypes: [],
-      showPicker:false,
+      showPicker: false,
       model: {
         clientId: "",
         clientName: "",
@@ -131,16 +133,30 @@ export default {
         allowedScopes: [],
         enabled: false,
         redirectUri: "",
+        redirectUris: [],
         postLogoutRedirectUri: "",
-        clientType:"点击选择"
+        postLogoutRedirectUris: [],
+        clientType: 0,
+        clientTypeText: "点击选择"
       }
     };
   },
   methods: {
-    sumbit() {},
-    onConfirm(value){
-      this.model.clientType=value;
-      this.showPicker=false;
+    async sumbit() {
+      this.model.redirectUris[0] = this.model.redirectUri;
+      this.model.postLogoutRedirectUris[0] = this.model.postLogoutRedirectUri;
+      var res = await this.clientService.createClient(this.model);
+      if (res.result) {
+        Toast("添加成功");
+        this.$router.go(-1);
+      } else {
+        Toast(res.message);
+      }
+    },
+    onConfirm(value, index) {
+      this.model.clientTypeText = value;
+      this.model.clientType = index;
+      this.showPicker = false;
     }
   },
   mounted() {

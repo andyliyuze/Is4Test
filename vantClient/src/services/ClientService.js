@@ -51,4 +51,16 @@ export default class ClientService {
                 })
         })
     }
+
+    async createClient(data) {
+        await this.defineHeaderAxios()
+        return new Promise((resolve) => {
+            axios
+                .post(baseUrl + "/client/create", data)
+                .then(response => resolve(response.data))
+                .catch(err => {
+                    console.log(err);
+                })
+        })
+    }
 }
