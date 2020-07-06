@@ -3,7 +3,7 @@ import axios from 'axios'
 import Mgr from './SecurityService'
 import 'babel-polyfill';
 
-const baseUrl = 'http://192.168.43.149:9000/api/';
+const baseUrl = process.env.VUE_APP_AdminApiURL + "/api";
 var user = new Mgr()
 
 export default class userService {

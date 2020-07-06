@@ -11,6 +11,8 @@ VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
 console.log(routes);
+console.log(process.env.VUE_APP_AdminApiURL)
+
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)

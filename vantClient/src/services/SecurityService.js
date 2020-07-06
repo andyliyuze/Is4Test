@@ -1,10 +1,9 @@
 /* eslint-disable */
 import Oidc from 'oidc-client';
 import 'babel-polyfill';
-
 var mgr = new Oidc.UserManager({
   userStore: new Oidc.WebStorageStateStore(),
-  authority: 'http://192.168.43.149:5000',
+  authority: process.env.VUE_APP_IS4URL,
   client_id: 'vuejsclient',
   redirect_uri: window.location.origin + '/callback.html',
   response_type: 'id_token token',

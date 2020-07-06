@@ -95,6 +95,22 @@ namespace Is4.Service.Implement
             return ClientConsts.GetGrantTypes();
         }
 
+        /// <summary>
+        /// 获取所有客户端类型，非Is4定义
+        /// </summary>
+        /// <returns></returns>
+        [UnitOfWork(false)]
+        public ResponseBase<IList<string>> GetClientTypes()
+        {
+            var list = new List<string>();
+            foreach (var item in Enum.GetValues(typeof(ClientType)))
+            {
+                list.Add(item.ToString());
+            }
+            return new ResponseBase<IList<string>>() { Result = list };
+        }
+
+
         [UnitOfWork(false)]
         public async Task<ResponseBase<PaginatedList<ClientOuput>>> GetList(int pageIndex, int pageSize)
         {

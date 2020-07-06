@@ -28,6 +28,21 @@
         </van-radio-group>
       </template>
     </van-field>
+
+  <van-field size="small" name="clientType" label="客户端类型">
+      <template #input>
+       <span @click="showPicker=true">{{model.clientType}}</span>
+        <van-popup v-model="showPicker" round position="bottom">
+        <van-picker
+          show-toolbar
+          :columns="clientTypes"
+          @cancel="showPicker = false"
+          @confirm="onConfirm"
+        />
+      </van-popup>
+        </template>
+    </van-field>
+
     <div class="scope_div">
       <span>Scope</span>
       <div>
@@ -69,6 +84,8 @@
 <script>
 import ClientService from "@/services/ClientService";
 import {
+  Picker,
+  Popup,
   CheckboxGroup,
   Checkbox,
   Field,
@@ -85,6 +102,8 @@ import {
 } from "vant";
 export default {
   components: {
+      [Picker.name]: Picker,
+      [Popup.name]: Popup,
     [CheckboxGroup.name]: CheckboxGroup,
     [Checkbox.name]: Checkbox,
     [Icon.name]: Icon,
@@ -103,6 +122,8 @@ export default {
     return {
       clientService: new ClientService(),
       allScopes: [],
+      clientTypes: [],
+      showPicker:false,
       model: {
         clientId: "",
         clientName: "",
@@ -110,15 +131,21 @@ export default {
         allowedScopes: [],
         enabled: false,
         redirectUri: "",
-        postLogoutRedirectUri: ""
+        postLogoutRedirectUri: "",
+        clientType:"点击选择"
       }
     };
   },
   methods: {
-    sumbit() {}
+    sumbit() {},
+    onConfirm(value){
+      this.model.clientType=value;
+      this.showPicker=false;
+    }
   },
   mounted() {
     this.clientService.getAllScopes().then(a => (this.allScopes = a));
+    this.clientService.getClientTypes().then(a => (this.clientTypes = a));
   }
 };
 </script>

@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Is4.Shared\Is4.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 </Project>

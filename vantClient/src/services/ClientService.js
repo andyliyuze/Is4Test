@@ -2,7 +2,7 @@ import axios from 'axios'
 import Mgr from './SecurityService'
 import 'babel-polyfill';
 
-const baseUrl = 'http://192.168.43.149:9000/api/';
+const baseUrl = process.env.VUE_APP_AdminApiURL + "/api";
 var user = new Mgr()
 
 export default class ClientService {
@@ -20,7 +20,7 @@ export default class ClientService {
         await this.defineHeaderAxios()
         return new Promise((resolve) => {
             axios
-                .get(baseUrl + "client/getList", { params: data })
+                .get(baseUrl + "/client/getList", { params: data })
                 .then(response => resolve(response.data.result))
                 .catch(err => {
                     console.log(err);
@@ -32,7 +32,7 @@ export default class ClientService {
         await this.defineHeaderAxios()
         return new Promise((resolve) => {
             axios
-                .get(baseUrl + "apiResource/getAllScopes",)
+                .get(baseUrl + "/apiResource/getAllScopes",)
                 .then(response => resolve(response.data.result))
                 .catch(err => {
                     console.log(err);
@@ -40,5 +40,15 @@ export default class ClientService {
         })
     }
 
-
+    async getClientTypes() {
+        await this.defineHeaderAxios()
+        return new Promise((resolve) => {
+            axios
+                .get(baseUrl + "/client/getClientTypes",)
+                .then(response => resolve(response.data.result))
+                .catch(err => {
+                    console.log(err);
+                })
+        })
+    }
 }

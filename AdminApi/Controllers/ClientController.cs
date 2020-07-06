@@ -31,7 +31,7 @@ namespace AdminApi.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("addScope")]
-        public async Task<ResponseBase<bool>> AddScope(AddScopeInput input) 
+        public async Task<ResponseBase<bool>> AddScope(AddScopeInput input)
         {
             return await _clientService.AddScope(input);
         }
@@ -44,7 +44,15 @@ namespace AdminApi.Controllers
         }
 
         [HttpGet]
-        [Route("getList")]   
+        [Route("getClientTypes")]
+        public ResponseBase<IList<string>> GetClientTypes()
+        {
+            return _clientService.GetClientTypes();
+        }
+
+
+        [HttpGet]
+        [Route("getList")]
         public async Task<ResponseBase<PaginatedList<ClientOuput>>> GetList(int pageIndex, int pageSize)
         {
             return await _clientService.GetList(pageIndex, pageSize);

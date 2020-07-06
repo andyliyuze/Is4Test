@@ -15,6 +15,8 @@ namespace Is4.Service.Shared
 
         IList<string> GetAllGrantTypes();
 
+        ResponseBase<IList<string>> GetClientTypes();
+
         Task<ResponseBase<PaginatedList<ClientOuput>>> GetList(int pageIndex, int pageSize);
     }
 }
