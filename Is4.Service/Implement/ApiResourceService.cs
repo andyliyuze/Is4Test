@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IdentityServer4;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.Models;
 using Is4.Common.CustomAttributes;
@@ -88,6 +89,8 @@ namespace Is4.Service.Shared
             var apis = _apiResourceRepository.Query().Select(a => new { a.Name, a.Scopes }).ToList();
 
             var idrs = _identityresourceRepository.Query().Select(a => a.Name).ToList();
+            output.Add(new ScopeListOutput() { ApiName = "token", Scopes = new List<string>() { IdentityServerConstants.StandardScopes.OfflineAccess } });
+
             output.Add(new ScopeListOutput() { ApiName = "identityresource", Scopes = idrs });
             foreach (var item in apis)
             {

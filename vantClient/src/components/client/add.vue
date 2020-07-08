@@ -69,6 +69,9 @@
   </van-form>
 </template>
 <style>
+.scope_div .van-cell__value {
+  right: 31px;
+}
 .scope_div {
   position: relative;
   box-sizing: border-box;
