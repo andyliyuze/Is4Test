@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Senparc.Weixin.MP;
+using Senparc.Weixin.MP.AdvancedAPIs;
+using Senparc.Weixin.MP.AdvancedAPIs.OAuth;
 using Senparc.Weixin.MP.Entities.Request;
 
 namespace AdminApi.Controllers
@@ -23,8 +25,10 @@ namespace AdminApi.Controllers
         [Route("callback")]
         public string callback()
         {
-            var re = this.Request;
-            return "hello";
+            var code = this.Request.Query["code"];
+            var result = OAuthApi.GetAccessToken(WxOpenAppId, WxOpenAppSecret, code);
+            var userInfo = OAuthApi.GetUserInfo(result.access_token, result.openid);
+            return $"{userInfo.nickname}:{userInfo.openid}";
         }
 
         [HttpGet]
@@ -39,7 +43,6 @@ namespace AdminApi.Controllers
         [Route("index")]
         public string index(string echostr)
         {
-            var ss = this.Request.Query;
             PostModel postModel = new PostModel()
             {
                 Nonce = this.Request.Query["nonce"],
@@ -55,6 +58,5 @@ namespace AdminApi.Controllers
                 return "Faild";
             }
         }
-
     }
 }

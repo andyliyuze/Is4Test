@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Senparc.Weixin.RegisterServices;
 
 namespace AdminApi
 {
@@ -31,6 +32,8 @@ namespace AdminApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSenparcWeixinServices(Configuration);//Senparc.Weixin ×¢²á£¨±ØÐë£©  
+
             services.AddMySqlDbContexts(Configuration);
 
             services.AddCors(option => option.AddPolicy("cors", policy =>
@@ -58,7 +61,7 @@ namespace AdminApi
             })
             .AddIdentityServerAuthentication(options =>
             {
-               // options.Authority = "http://192.168.43.149:5000";
+                // options.Authority = "http://192.168.43.149:5000";
                 options.Authority = "http://localhost:5000";
                 options.ApiName = "AdminApi";
                 options.ApiSecret = "secret";
@@ -72,6 +75,7 @@ namespace AdminApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
