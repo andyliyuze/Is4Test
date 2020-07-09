@@ -12,6 +12,8 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Senparc.Weixin.RegisterServices;
+
 namespace Is4Test
 {
     public class Startup
@@ -26,6 +28,8 @@ namespace Is4Test
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSenparcWeixinServices(Configuration);//Senparc.Weixin ×¢²á£¨±ØÐë£©  
+
             services.AddMySqlDbContexts(Configuration);
             services.AddIdentity<User, IdentityRole>().AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

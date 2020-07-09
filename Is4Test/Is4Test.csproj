@@ -25,6 +25,7 @@
     <PackageReference Include="NLog.Extensions.Logging" Version="1.6.4" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
+    <PackageReference Include="Senparc.Weixin.MP" Version="16.10.502.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -19,6 +19,8 @@ namespace Is4Test.Model
         public string ReturnUrl { get; set; }
     }
 
+ 
+
 
     public class RedirectViewModel
     {

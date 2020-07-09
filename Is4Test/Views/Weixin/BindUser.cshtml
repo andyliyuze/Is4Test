@@ -1,0 +1,89 @@
+﻿@model Is4Test.Model.BingWeiXinUserViewModel
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico">
+    <title>hello-world</title>
+
+    <script src="~/js/jquery-3.5.1.min.js"></script>
+    <script src="~/css/layer.js"></script>
+    <link href="~/css/login.css" rel="stylesheet" />
+    <link href="~/css/layui.mobile.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="app">
+        <div>
+            @*action="/api/weixin/bindUser" method="post"*@
+            <form id="form" class="van-form">
+                <input type="hidden" value="@Model.ReturnUrl" name="ReturnUrl" />
+                <input type="hidden" value="@Model.WeiXinHeadUrl" name="WeiXinHeadUrl" />
+                <input type="hidden" value="@Model.WeiXinNickName" name="WeiXinNickName" />
+                <input type="hidden" value="@Model.WeiXinOpenId" name="WeiXinOpenId" />
+                <div class="van-cell van-field">
+                    <div class="van-cell__title van-field__label">
+                        <span>用户名</span>
+                    </div><div class="van-cell__value van-field__value">
+                        <div class="van-field__body">
+                            <input type="text" placeholder="用户名" name="Username" class="van-field__control">
+                        </div>
+                    </div>
+                </div><div class="van-cell van-field">
+                    <div class="van-cell__title van-field__label">
+                        <span>密码</span>
+                    </div><div class="van-cell__value van-field__value">
+                        <div class="van-field__body">
+                            <input type="password" name="Password" placeholder="密码" class="van-field__control">
+                        </div>
+                    </div>
+                </div>
+                <div class="loginbtn_div">
+                    <button id="login" name="button" value="login" type="button" class="mybtn van-button van-button--info van-button--normal van-button--block van-button--round">
+                        <div class="van-button__content">
+                            <span class="van-button__text">确认验证</span>
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+
+        $.fn.serializeObject = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        }
+
+
+        $("#login").click(function () {
+            var data = $("#form").serializeObject();
+            console.log(data)
+            $.ajax({
+                method: "post",
+                url: "/api/weixin/bindUser",
+                data: data,
+                success: function (res) {
+                    layer.msg(res.message);
+                    if (res.success) {
+                    } 
+                }
+
+
+            });
+
+
+        });
+    </script>
+</body>
+</html>
