@@ -18,11 +18,8 @@ export default {
     this.mgr.getSignedIn().then(
       signIn => {
         this.signedIn = signIn;
-        if (signIn) {
-          this.$router.push({ path: "HelloWorld" });
-        } else {
-          // this.mgr.signIn();
-        }
+
+        this.$router.push({ path: "HelloWorld" });
       },
       err => {
         console.log(err);

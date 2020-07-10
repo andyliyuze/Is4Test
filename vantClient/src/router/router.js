@@ -6,7 +6,7 @@ export const routes = [
     { path: '/client/add', name: "AddClient", title: "添加", component: () => import('@/components/client/add.vue') },
     {
         path: '/UserInfo', name: "UserInfo", title: "个人中心", component: () => import('@/components/account/UserInfo.vue'), meta: {
-            requiresAuth: true
+            requiresAuth: false
         }
     }
 ]

@@ -1,6 +1,8 @@
 /* eslint-disable */
 import Oidc from 'oidc-client';
 import 'babel-polyfill';
+import axios from 'axios';
+const baseUrl = process.env.VUE_APP_IS4URL + "/api";
 var mgr = new Oidc.UserManager({
   userStore: new Oidc.WebStorageStateStore(),
   authority: process.env.VUE_APP_IS4URL,
@@ -78,7 +80,6 @@ export default class SecurityService {
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
-          self.signIn()
           return resolve(null)
         } else {
           return resolve(user)
@@ -96,7 +97,6 @@ export default class SecurityService {
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
-          self.signIn()
           return resolve(false)
         } else {
           return resolve(true)
@@ -229,6 +229,17 @@ export default class SecurityService {
         console.log(err)
         return reject(err)
       });
+    })
+  }
+
+  async getWeiXinAuthorizeUrl() {
+    return new Promise((resolve) => {
+      axios
+        .get(baseUrl + "/weixin/getWeiXinAuthorizeUrl")
+        .then(response => resolve(response.data))
+        .catch(err => {
+          console.log(err);
+        })
     })
   }
 }

@@ -1,3 +1,4 @@
+using IdentityServer4.Services;
 using Is4.Common.Extensions;
 using Is4.Domain;
 using Is4.EFCore.MySql.Extensions;
@@ -49,6 +50,10 @@ namespace Is4Test
             var identitybuilder = builder.AddAspNetIdentity<User>()
                 .AddProfileService<ImplicitProfileService>();
 
+
+            services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().
+            AllowAnyMethod().WithOrigins("*")));
+
             services.AddScoped<IUserClaimsPrincipalFactory<User>, CustomUserClaimsPrincipalFactory>();
 
             builder.AddDeveloperSigningCredential();
@@ -78,11 +83,12 @@ namespace Is4Test
         {
             if (env.IsDevelopment())
             {
-              //  InitializeDatabase.Run(app).Wait();
+                //  InitializeDatabase.Run(app).Wait();
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("cors");
             app.UseStaticFiles();
-          //  app.UseHttpsRedirection();
+            //  app.UseHttpsRedirection();
 
             app.UseRouting();
 

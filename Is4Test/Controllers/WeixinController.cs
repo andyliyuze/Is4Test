@@ -1,6 +1,7 @@
 ﻿
 using Is4.Domain;
 using Is4Test.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace Is4Test.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     public class WeixinController : Controller
     {
@@ -29,15 +31,15 @@ namespace Is4Test.Controllers
             _userManager = userManager;
         }
 
+      
         [HttpGet]
         [Route("getWeiXinAuthorizeUrl")]
         public string GetWeiXinAuthorizeUrl(bool needUserInfo = false)
         {
-            var appid = _configuration["AppId"];
+            var appid = WxOpenAppId;
             var hostUrl = $"{_configuration["HostDomain"]}/api/weixin/callback".UrlEncode();
             var scope = needUserInfo ? "snsapi_userinfo" : "snsapi_base";
-            var url = $@"https://open.weixin.qq.com/connect/oauth2/authorize?appid={appid}&
-            redirect_uri={hostUrl}&response_type=code&scope={scope}&state=123#wechat_redirect";
+            var url = $@"https://open.weixin.qq.com/connect/oauth2/authorize?appid={appid}&redirect_uri={hostUrl}&response_type=code&scope={scope}&state=123#wechat_redirect";
 
             return url;
         }
