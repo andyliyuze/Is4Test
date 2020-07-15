@@ -1,8 +1,10 @@
 ﻿@model Is4Test.Model.LoginViewModel
+ 
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://localhost:5001/">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" >
     <link rel="icon" href="/favicon.ico">
     <title>hello-world</title>
     <link href="~/css/login.css" rel="stylesheet" />
@@ -18,7 +20,7 @@
                         <span>用户名</span>
                     </div><div class="van-cell__value van-field__value">
                         <div class="van-field__body">
-                            <input type="text"  placeholder="用户名"  name="Username"  class="van-field__control">
+                            <input type="text" placeholder="用户名" name="Username" class="van-field__control">
                         </div>
                     </div>
                 </div><div class="van-cell van-field">
@@ -26,19 +28,25 @@
                         <span>密码</span>
                     </div><div class="van-cell__value van-field__value">
                         <div class="van-field__body">
-                            <input type="password"  name="Password" placeholder="密码" class="van-field__control">
+                            <input type="password" name="Password" placeholder="密码" class="van-field__control">
                         </div>
                     </div>
                 </div>
-                <div class="loginbtn_div">
-                    <button name="button" value="login" type="submit" class="mybtn van-button van-button--info van-button--normal van-button--block van-button--round">
-                        <div class="van-button__content">
-                            <span class="van-button__text">登录</span>
-                        </div>
-                    </button>
-                </div>
+                      <div class="loginbtn_div">
+                          <button name="button" value="login" type="submit" class="mybtn van-button van-button--info van-button--normal van-button--block van-button--round">
+                              <div class="van-button__content">
+                                  <span class="van-button__text">登录</span>
+                              </div>
+
+                          </button>
+                          <a href="/api/weixin/bindUser">123</a>
+                      </div>
             </form>
         </div>
     </div>
+
+    <script src="~/js/vconsole.min.js"></script>
+   
+    <script src="~/js/test.js"></script>
 </body>
 </html>

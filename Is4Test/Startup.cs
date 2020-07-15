@@ -1,8 +1,14 @@
+using AutoMapper;
+using Castle.DynamicProxy;
 using IdentityServer4.Services;
 using Is4.Common.Extensions;
 using Is4.Domain;
+using Is4.Domain.Repostitory;
+using Is4.EFCore.MySql;
 using Is4.EFCore.MySql.Extensions;
 using Is4.EFCore.Shared;
+using Is4.Service.Interceptor;
+using Is4.Service.Shared;
 using Is4Test.Extensions;
 using Is4Test.Services;
 using MassTransit;
@@ -49,10 +55,14 @@ namespace Is4Test
 
             var identitybuilder = builder.AddAspNetIdentity<User>()
                 .AddProfileService<ImplicitProfileService>();
-
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAsyncInterceptor, AutoUnitOfWorkInterceptor>();
+            services.AddAppService();
+            services.AddRepository();
+            services.AddAutoMapper(typeof(AutoMapperProfile));
 
             services.AddCors(option => option.AddPolicy("cors", policy => policy.AllowAnyHeader().
-            AllowAnyMethod().WithOrigins("*")));
+            AllowAnyMethod().WithOrigins("http://andyliyuze.oicp.net:50092", "http://localhost:8081")));
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, CustomUserClaimsPrincipalFactory>();
 

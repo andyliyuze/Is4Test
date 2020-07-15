@@ -2,6 +2,7 @@
 import Oidc from 'oidc-client';
 import 'babel-polyfill';
 import axios from 'axios';
+
 const baseUrl = process.env.VUE_APP_IS4URL + "/api";
 var mgr = new Oidc.UserManager({
   userStore: new Oidc.WebStorageStateStore(),
@@ -18,6 +19,23 @@ var mgr = new Oidc.UserManager({
   filterProtocolClaims: true,
   loadUserInfo: true
 })
+
+var mgr2 = new Oidc.OidcClient({
+  userStore: new Oidc.WebStorageStateStore(),
+  authority: process.env.VUE_APP_IS4URL,
+  client_id: 'vuejsclient',
+  redirect_uri: window.location.origin + '/callback.html',
+  response_type: 'id_token token',
+  scope: 'openid profile AdminApi',
+  secret: 'secret',
+  post_logout_redirect_uri: window.location.origin + '/index.html',
+  silent_redirect_uri: window.location.origin + '/silent-renew.html',
+  accessTokenExpiringNotificationTime: 10,
+  automaticSilentRenew: true,
+  filterProtocolClaims: true,
+  loadUserInfo: true
+})
+
 
 Oidc.Log.logger = console;
 Oidc.Log.level = Oidc.Log.INFO;
@@ -77,6 +95,11 @@ export default class SecurityService {
   // Get the user who is logged in
   getUser() {
     let self = this
+    mgr._stateStore.getAllKeys().then(res => {
+
+      JSON.stringify(res);
+      alert(res);
+    });
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {
@@ -112,6 +135,21 @@ export default class SecurityService {
   signIn() {
     mgr.signinRedirect().catch(function (err) {
       console.log(err)
+    })
+  }
+
+  async createSigninRequest() {
+    return new Promise((resolve, reject) => {
+      mgr2.createSigninRequest().then(function (res) {
+        if (res == null) {
+          return resolve(null)
+        } else {
+          return resolve(res)
+        }
+      }).catch(function (err) {
+        console.log(err)
+        return reject(err)
+      });
     })
   }
 
@@ -236,6 +274,18 @@ export default class SecurityService {
     return new Promise((resolve) => {
       axios
         .get(baseUrl + "/weixin/getWeiXinAuthorizeUrl")
+        .then(response => resolve(response.data))
+        .catch(err => {
+          console.log(err);
+        })
+    })
+  }
+
+  async tryLogin() {
+    var res = await this.createSigninRequest();
+    return new Promise((resolve) => {
+      axios
+        .get(baseUrl + "/weixin/tryLogin", { params: { clientId: "vuejsclient", returnUrl: res.url } })
         .then(response => resolve(response.data))
         .catch(err => {
           console.log(err);

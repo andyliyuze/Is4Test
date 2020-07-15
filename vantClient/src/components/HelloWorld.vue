@@ -18,6 +18,8 @@
 
 <script>
 import { Button, Tabbar, TabbarItem } from "vant";
+import weiXinHelper from "@/utility/weixin.js";
+import Mgr from "@/services/SecurityService";
 export default {
   components: {
     [Button.name]: Button,
@@ -26,7 +28,9 @@ export default {
   },
   data() {
     return {
-      active: 0
+      active: 0,
+      mgr: new Mgr(),
+      isWeinBrowser: weiXinHelper.isWeixin()
     };
   },
   name: "HelloWorld",
@@ -46,6 +50,21 @@ export default {
     toUserInfo() {
       this.$router.push("UserInfo");
     }
+  },
+  mounted() {
+    this.mgr.getUser().then(user => {
+      console.log(user);
+      alert(user);
+      if (this.isWeinBrowser && user == null) {
+        this.mgr
+          .tryLogin()
+          .then(a => {
+            alert(a);
+            window.location.href = a;
+          })
+          .catch(ex => console.log(ex));
+      }
+    });
   }
 };
 </script>

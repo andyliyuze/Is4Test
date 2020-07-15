@@ -49,14 +49,14 @@ namespace Is4.Service.Implement
             if (result.Succeeded)
             {
                 var match = Regex.Match(input.Head, "data:image/(png|jpeg);base64,([\\w\\W]*)$");
-               
+
                 if (match.Success)
                 {
                     input.Head = match.Groups[2].Value;
                 }
 
                 var photoBytes = Convert.FromBase64String(input.Head);
-                 
+
                 using (MemoryStream ms = new MemoryStream(photoBytes, 0, photoBytes.Length))
                 {
                     var img = Image.FromStream(ms);
@@ -142,7 +142,7 @@ namespace Is4.Service.Implement
 
         public byte[] ImageToBytes(Image image)
         {
-           
+
             using (MemoryStream ms = new MemoryStream())
             {
                 image.Save(ms, ImageFormat.Jpeg);
@@ -195,6 +195,13 @@ namespace Is4.Service.Implement
             var output = _mapper.Map<GetUserOutput>(user);
             output.Claims = _mapper.Map<IList<ClaimOutput>>(claims);
             return new ResponseBase<GetUserOutput>() { Result = output };
+        }
+
+
+        public User GetUserByOpenId(string openId)
+        {
+            var user = _userRepository.Query().Where(a => a.WeiXinOpenId == openId).FirstOrDefault();
+            return user;
         }
     }
 }

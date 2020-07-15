@@ -33,6 +33,7 @@
     <ProjectReference Include="..\Is4.Domain\Is4.Domain.csproj" />
     <ProjectReference Include="..\Is4.EFCore.MySql\Is4.EFCore.MySql.csproj" />
     <ProjectReference Include="..\Is4.EFCore.Shared\Is4.EFCore.Shared.csproj" />
+    <ProjectReference Include="..\Is4.Service\Is4.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

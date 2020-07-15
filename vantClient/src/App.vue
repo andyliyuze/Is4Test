@@ -6,6 +6,7 @@
 
 <script>
 import Mgr from "./services/SecurityService";
+
 export default {
   name: "App",
   data() {

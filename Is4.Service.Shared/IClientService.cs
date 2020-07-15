@@ -18,5 +18,7 @@ namespace Is4.Service.Shared
         ResponseBase<IList<string>> GetClientTypes();
 
         Task<ResponseBase<PaginatedList<ClientOuput>>> GetList(int pageIndex, int pageSize);
+
+        Task<ResponseBase<ClientOuput>> GetByClientId(string clientId);
     }
 }

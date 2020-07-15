@@ -123,5 +123,12 @@ namespace Is4.Service.Implement
                 Result = new PaginatedList<ClientOuput>(output, count, pageIndex, pageSize)
             };
         }
+
+        public async Task<ResponseBase<ClientOuput>> GetByClientId(string clientId)
+        {
+            var client = _clientRepository.Query().Where(a => a.ClientId == clientId).FirstOrDefault();
+            var output = _mapper.Map<ClientOuput>(client);
+            return new ResponseBase<ClientOuput>() { Result = output };
+        }
     }
 }

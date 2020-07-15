@@ -5,7 +5,9 @@ import VueRouter from 'vue-router';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Mgr from "@/services/SecurityService";
-
+import Vconsole from 'vconsole'
+let vConsole = new Vconsole()
+Vue.use(vConsole)
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)

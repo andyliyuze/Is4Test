@@ -9,6 +9,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using Is4.Domain;
+using Is4.Service.Shared;
 using Is4Test.Extensions;
 using Is4Test.Model;
 using Microsoft.AspNetCore.Authentication;
@@ -33,9 +34,9 @@ namespace Is4Test.Controllers
         private readonly IClientStore _clientStore;
         private readonly IEventService _events;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
-        private readonly IDataProtector DataProtector;
+        private readonly IUserService _userService;
         public AccountController(IIdentityServerInteractionService interaction, UserManager<User> userManager, SignInManager<User> signInManager,
-            IClientStore clientStore, IEventService events, IAuthenticationSchemeProvider schemeProvider, IDataProtectionProvider provider)
+            IClientStore clientStore, IEventService events, IAuthenticationSchemeProvider schemeProvider, IUserService userService)
         {
             _userManager = userManager;
             _clientStore = clientStore;
@@ -43,13 +44,15 @@ namespace Is4Test.Controllers
             _interaction = interaction;
             _schemeProvider = schemeProvider;
             _events = events;
-            DataProtector = provider.CreateProtector("IdentityServer4.Stores.ProtectedDataMessageStore");
+            _userService = userService;
+
         }
         // GET: /<controller>/
         [HttpGet]
         [Route("Login")]
         public async Task<IActionResult> Login(string returnUrl)
         {
+                this.Response.Cookies.Append("returnUrl", returnUrl);
             // build a model so we know what to show on the login page
             var vm = await BuildLoginViewModelAsync(returnUrl);
 
@@ -144,8 +147,8 @@ namespace Is4Test.Controllers
             // something went wrong, show form with error
             var vm = await BuildLoginViewModelAsync(model);
             return View(vm);
-        }
-
+        } 
+        
         private async Task<LoginViewModel> BuildLoginViewModelAsync(LoginInputModel model)
         {
             var vm = await BuildLoginViewModelAsync(model.ReturnUrl);
