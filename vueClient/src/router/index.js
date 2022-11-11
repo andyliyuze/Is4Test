@@ -4,7 +4,7 @@ import Home from '../pages/Home'
 import PayingUser from '../pages/PayingUser'
 import FreeUser from '../pages/FreeUser'
 import AccessDenied from '../pages/AccessDenied'
-
+import Rocker from '../pages/Rocker'
 Vue.use(Router)
 
 export default new Router({
@@ -39,6 +39,14 @@ export default new Router({
       path: '/accessdenied',
       name: 'AccessDenied',
       component: AccessDenied,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/Rocker',
+      name: 'Rocker',
+      component: Rocker,
       meta: {
         requiresAuth: false
       }

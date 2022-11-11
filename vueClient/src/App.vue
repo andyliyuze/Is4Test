@@ -2,32 +2,32 @@
   <!--eslint-disable-->
   <div v-if="signedIn">
     <div id="app">
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
 /* eslint-disable */
-import Mgr from './services/SecurityService'
+import Mgr from "./services/SecurityService";
 
 export default {
-  name: 'App',
-  data () {
+  name: "App",
+  data() {
     return {
       mgr: new Mgr(),
-      signedIn: true
-    }    
+      signedIn: true,
+    };
   },
-  mounted () {
-    this.mgr.getSignedIn().then(
-      signIn => {
-        this.signedIn = signIn
-      },
-      err => {
-        console.log(err)
-      }
-    )    
-  }
-}
+  mounted() {
+    //   this.mgr.getSignedIn().then(
+    //     signIn => {
+    //       this.signedIn = signIn
+    //     },
+    //     err => {
+    //       console.log(err)
+    //     }
+    //   )
+  },
+};
 </script>

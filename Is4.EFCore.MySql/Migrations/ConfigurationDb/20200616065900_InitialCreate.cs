@@ -48,7 +48,7 @@ namespace Is4Test.Migrations.ConfigurationDb
                 {
                     table.PrimaryKey("PK_ApiScopes", x => x.Id);
                 });
-
+           
             migrationBuilder.CreateTable(
                 name: "Clients",
                 columns: table => new

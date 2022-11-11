@@ -17,7 +17,7 @@ namespace Is4Test.Extensions
 
         }
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(User user)
-        {
+        {            
             var claimsIdentity = await base.GenerateClaimsAsync(user);
             claimsIdentity.AddClaim(new Claim("depId", "123"));
             claimsIdentity.AddClaim(new Claim("userid", user.Id));

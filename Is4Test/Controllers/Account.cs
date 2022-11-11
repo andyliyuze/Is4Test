@@ -102,7 +102,7 @@ namespace Is4Test.Controllers
                     return Redirect("~/");
                 }
             }
-
+   
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, lockoutOnFailure: true);

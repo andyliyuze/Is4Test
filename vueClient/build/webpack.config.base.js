@@ -73,7 +73,7 @@ module.exports = {
       inject: true
     }),
     new VueLoaderPlugin(),
-      new CopyWebpackPlugin([
+    new CopyWebpackPlugin([
       {
         from: utils.resolve('static/img'),
         to: utils.resolve('dist/static/img'),

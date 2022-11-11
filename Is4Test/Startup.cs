@@ -40,7 +40,7 @@ namespace Is4Test
             services.AddMySqlDbContexts(Configuration);
             services.AddIdentity<User, IdentityRole>().AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders();    
 
             var builder = services.AddIdentityServer(options =>
             {

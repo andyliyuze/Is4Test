@@ -95,11 +95,7 @@ export default class SecurityService {
   // Get the user who is logged in
   getUser() {
     let self = this
-    mgr._stateStore.getAllKeys().then(res => {
 
-      JSON.stringify(res);
-      alert(res);
-    });
     return new Promise((resolve, reject) => {
       mgr.getUser().then(function (user) {
         if (user == null) {

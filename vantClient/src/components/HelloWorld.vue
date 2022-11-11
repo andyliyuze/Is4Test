@@ -54,13 +54,12 @@ export default {
   mounted() {
     this.mgr.getUser().then(user => {
       console.log(user);
-      alert(user);
+     
       if (this.isWeinBrowser && user == null) {
         this.mgr
           .tryLogin()
           .then(a => {
-            alert(a);
-            window.location.href = a;
+              window.location.href = a;
           })
           .catch(ex => console.log(ex));
       }
